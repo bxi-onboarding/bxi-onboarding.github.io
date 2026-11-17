@@ -1,0 +1,302 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>B11 Employee Onboarding</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: onboarding app — module rail on the left, one lesson screen at a time on the right, step bar under each lesson.
+   Single light look on purpose, matching the light-theme welcome video. */
+:root{
+  --ground:#EEF2FA; --panel:#FFFFFF; --ink:#0B1B3F; --slate:#4A5878; --mist:#8C98B2; --line:#DCE3F1;
+  --orange:#E8650A; --orange-soft:#FFF1E6; --blue:#2F6BFF; --blue-soft:#E9F0FF; --good:#14804A; --good-soft:#E6F5EC; --bad:#B4233C; --bad-soft:#FCEBEE;
+  --amber:#8A5A00; --amber-soft:#FFF4D6; --amber-line:#F0CF7A;
+  --display:'Montserrat','Segoe UI',Arial,sans-serif; --body:'Inter','Segoe UI',Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 28px}
+button,input{font:inherit}
+.shell{max-width:1360px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+header{display:flex;align-items:center;gap:18px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 18px}
+.brand{display:flex;align-items:center;gap:14px;min-width:0}
+.brand img{width:50px;height:50px;object-fit:contain}
+.brand h1{font:800 18px/1.2 var(--display);margin:0}
+.brand p{margin:0;color:var(--slate);font-size:13px}
+.prog{margin-left:auto;display:flex;align-items:center;gap:12px;flex:1;min-width:220px;max-width:460px;font-size:13px;color:var(--slate);font-variant-numeric:tabular-nums}
+.bar{flex:1;height:7px;background:var(--line);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--orange),#D93A5B);transition:width .5s ease}
+.main{display:grid;grid-template-columns:290px minmax(0,1fr);gap:14px;align-items:start}
+nav{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px 8px;position:sticky;top:max(12px,env(safe-area-inset-top,0px));max-height:calc(100vh - 40px);overflow:auto}
+nav h2{font:700 11px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--mist);margin:12px 10px 6px}
+nav ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:1px}
+.mi{all:unset;box-sizing:border-box;width:100%;display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;font-size:14px;cursor:pointer}
+.mi:hover{background:var(--blue-soft)} .mi:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+.mi .n{font:700 12px var(--display);width:22px;color:var(--mist);font-variant-numeric:tabular-nums}
+.mi .t{flex:1;min-width:0}
+.mi .s{font-size:12px;color:var(--mist);white-space:nowrap}
+.mi.on{background:var(--blue-soft);color:var(--blue);font-weight:600} .mi.on .n{color:var(--blue)}
+.mi.done .s{color:var(--good)}
+.page{background:var(--panel);border:1px solid var(--line);border-radius:18px;min-height:560px;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.ph{padding:18px 26px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.ph .eyebrow{margin:0}
+.dots{margin-left:auto;display:flex;gap:6px}
+.dots i{width:22px;height:5px;border-radius:3px;background:var(--line)} .dots i.on{background:var(--orange)} .dots i.seen{background:#F6B98C}
+.body{padding:28px 30px;flex:1;min-width:0}
+.foot{padding:14px 26px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.eyebrow{font:700 11px var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--orange);margin:0 0 8px}
+h2.title{font:900 clamp(22px,2.6vw,34px)/1.15 var(--display);margin:0 0 12px;text-wrap:balance;letter-spacing:-.01em}
+.lead{font-size:17px;color:var(--slate);max-width:68ch;margin:0 0 18px}
+.lead b{color:var(--ink)}
+.sample{display:inline-flex;align-items:center;gap:6px;font:700 11px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--amber);background:var(--amber-soft);border:1px solid var(--amber-line);padding:3px 9px;border-radius:999px;white-space:nowrap}
+.tbc{margin-top:18px;padding:12px 16px;border-radius:12px;background:var(--amber-soft);border:1px dashed var(--amber-line);color:var(--amber);font-size:14px}
+.tbc b{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
+.checklist{list-style:none;margin:0;padding:0;display:grid;gap:10px;max-width:760px}
+.checklist li{display:flex;gap:14px;align-items:center;padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:#FBFCFF;opacity:0;transform:translateY(8px);animation:rise .5s ease forwards}
+.checklist li svg{flex:none}
+@keyframes rise{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.checklist li{animation:none;opacity:1;transform:none}}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.rc{all:unset;box-sizing:border-box;cursor:pointer;border:1.5px solid var(--line);border-radius:14px;padding:16px;background:#fff;display:flex;flex-direction:column;gap:8px;min-height:116px}
+.rc:hover{border-color:var(--blue)} .rc:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.rc .k{font:800 13px var(--display);color:var(--orange)}
+.rc .h{font:800 17px/1.25 var(--display)}
+.rc .hint{margin-top:auto;font-size:12.5px;color:var(--blue);font-weight:600}
+.rc.open{border-color:var(--good);background:var(--good-soft)} .rc.open .hint{color:var(--good)}
+.reveal{margin-top:14px;padding:16px 18px;border-radius:14px;background:var(--blue-soft);min-height:60px}
+.reveal h4{font:800 17px var(--display);margin:0 0 6px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.reveal p{margin:0 0 6px;color:var(--slate)} .reveal ul,.reveal ol{margin:6px 0 0;padding-left:20px;color:var(--ink)} .reveal li{margin:3px 0}
+.shifts{display:flex;gap:12px;flex-wrap:wrap;margin:6px 0 4px}
+.shift{border:1.5px solid var(--line);border-radius:14px;padding:14px 18px;background:#fff;min-width:220px}
+.shift b{display:block;font:900 24px var(--display);font-variant-numeric:tabular-nums} .shift span{font-size:13px;color:var(--slate)}
+.steps3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.flow{display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;margin-top:6px}
+.flow div{flex:1 1 150px;border:1.5px solid var(--line);border-radius:12px;padding:12px;background:#fff;font-weight:600;font-size:14px;position:relative}
+.flow div b{display:block;font:800 12px var(--display);color:var(--orange);margin-bottom:2px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:700 12px var(--body);letter-spacing:.06em;text-transform:uppercase;color:var(--mist)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.mail{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0}
+.mail code{font:600 14px ui-monospace,Menlo,Consolas,monospace;background:#fff;border:1px solid var(--line);padding:4px 8px;border-radius:8px;user-select:all;word-break:break-all}
+.cp{all:unset;cursor:pointer;font:700 12px var(--body);color:var(--blue);padding:4px 8px;border-radius:8px;border:1px solid #C9D8FF;background:#fff}
+.cp:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+.lbl{font-size:12px;color:var(--mist);font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.btn{all:unset;box-sizing:border-box;font:700 14px var(--display);padding:11px 18px;border-radius:10px;cursor:pointer;background:var(--ink);color:#fff;text-align:center}
+.btn:hover{background:#1A2F60} .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn[disabled]{opacity:.35;cursor:not-allowed} .btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.q{max-width:760px}
+.q h3{font:800 20px/1.3 var(--display);margin:0 0 14px}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{all:unset;box-sizing:border-box;display:flex;gap:12px;align-items:center;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;cursor:pointer;background:#fff}
+.opt b{font:800 13px var(--display);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--blue-soft);color:var(--blue);flex:none}
+.opt:hover{border-color:var(--blue)} .opt:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.opt.right{border-color:var(--good);background:var(--good-soft)} .opt.right b{background:var(--good);color:#fff}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)} .opt.wrong b{background:var(--bad);color:#fff}
+.fb{margin:12px 0 0;padding:11px 14px;border-radius:12px;font-size:14px}
+.fb.ok{background:var(--good-soft);color:var(--good)} .fb.no{background:var(--bad-soft);color:var(--bad)}
+.note{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;max-width:560px}
+.note label{font-size:14px;font-weight:600}
+.note input{padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;font-size:15px;color:var(--ink);background:#fff}
+.note input:focus{outline:2px solid var(--blue);outline-offset:1px}
+.video{position:relative;width:100%;max-width:100%;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#F4F7FD;border:1px solid var(--line)}
+.video video{width:100%;height:100%;object-fit:cover;display:block}
+.eco{width:100%;max-width:100%;border-radius:14px;border:1px solid var(--line);display:block}
+.home{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:8px}
+.hm{all:unset;box-sizing:border-box;cursor:pointer;border:1.5px solid var(--line);border-radius:14px;padding:16px;background:#fff;display:flex;flex-direction:column;gap:6px}
+.hm:hover{border-color:var(--blue)} .hm:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.hm .k{font:800 12px var(--display);color:var(--mist);letter-spacing:.08em;text-transform:uppercase}
+.hm .h{font:800 17px var(--display)} .hm .st{font-size:13px;color:var(--mist)} .hm.done .st{color:var(--good);font-weight:600}
+.cert{text-align:center;border:2px solid var(--orange-soft);background:linear-gradient(160deg,#fff,#FFF8F2);border-radius:18px;padding:28px;max-width:720px;margin:0 auto}
+.cert .who{font:900 clamp(24px,3vw,36px) var(--display);margin:6px 0}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
+.stats div{background:var(--ground);border-radius:12px;padding:10px}
+.stats b{display:block;font:800 19px var(--display);font-variant-numeric:tabular-nums} .stats span{font-size:12px;color:var(--slate)}
+@media (max-width:920px){.main{grid-template-columns:minmax(0,1fr)} nav{position:static;max-height:280px}}
+@media (max-width:600px){.body{padding:20px 16px}.ph,.foot{padding:12px 16px}.steps3{grid-template-columns:minmax(0,1fr)}.dots{display:none}.prog{flex-basis:100%;max-width:none;min-width:0}.stats{grid-template-columns:minmax(0,1fr)}}
+</style>
+</head><body>
+
+<div class="shell">
+  <header>
+    <div class="brand"><img src="bxi.png" alt="B11 Technology"><div><h1>Employee Onboarding</h1><p>Welcome to B11 Technology</p></div></div>
+    <div class="prog"><span id="progTxt">0% complete</span><div class="bar"><i id="barFill"></i></div></div>
+  </header>
+  <div class="main">
+    <nav aria-label="Modules" id="nav"></nav>
+    <section class="page" aria-live="polite">
+      <div class="ph"><p class="eyebrow" id="crumb">Home</p><div class="dots" id="dots"></div></div>
+      <div class="body" id="body"></div>
+      <div class="foot"><button class="btn ghost" id="back">Back</button><span class="note" id="footNote" style="margin:0;color:var(--mist);font-size:13px"></span><button class="btn" id="next">Next</button></div>
+    </section>
+  </div>
+</div>
+
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+const SAMPLE='<span class="sample">Sample · awaiting approval</span>';
+const tick='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#14804A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" stroke-width="1.6"/><path d="M7.5 12.5l3 3 6-6.5"/></svg>';
+const mail=(e,l)=>`<div class="mail">${l?`<span class="lbl">${l}</span>`:''}<code>${e}</code><button class="cp" data-copy="${e}">Copy</button></div>`;
+const tbc=t=>`<div class="tbc"><b>To be confirmed</b>${t}</div>`;
+
+// ---------- content (from the final proposed script) ----------
+const MODS=[
+ {id:'w',part:1,n:'▶',t:'Welcome to B11',steps:[{k:'video'}]},
+ {id:'c1',part:2,n:'01',t:'Your First Steps',steps:[
+  {k:'list',eb:'Getting started',h:'Your first day at B11',lead:'Here’s what you need to get started:',items:['Complete your joining formalities.','Connect with your reporting manager and team.','Get access to your official email and required systems.','Understand your working schedule.','Familiarise yourself with the employee handbook.','Know where to go when you need support.']},
+  {k:'cards',eb:'Your joining checklist',h:'Open each card to see the details',cards:[['01','Employee Documentation','<p>Complete the required joining documents and formalities.</p>'],['02','System Access','<p>Get access to the systems and platforms required for your role.</p>'],['03','Team Introduction','<p>Understand your reporting structure, responsibilities and key contacts.</p>'],['04','Workplace Familiarisation','<p>Understand your work location, working arrangements and office guidelines.</p>'],['05','Employee Handbook','<p>Review the policies and processes that apply to you.</p>']],tbc:'Joining formalities, responsible teams and timelines.'}],
+  quiz:[['Which joining step gives you access to the platforms you need for your role?',['Employee Documentation','System Access','Workplace Familiarisation'],1],['Who should you connect with on your first day?',['Your reporting manager and team','Only the HR team','Nobody until your first week ends'],0],['Where can you review the policies and processes that apply to you?',['A colleague’s notes','The employee handbook','Social media'],1]]},
+ {id:'c2',part:2,n:'02',t:'Attendance & Timesheets',steps:[
+  {k:'html',eb:'Your daily work routine',h:'Manage your workday with EdgeFi',html:`<p class="lead"><b>EdgeFi</b> is used for employee attendance and timesheet submission.</p><p class="lead" style="margin-bottom:8px">Employees can choose between two available shifts:</p><div class="shifts"><div class="shift"><b>9:00 AM – 6:00 PM</b><span>Shift 1</span></div><div class="shift"><b>10:00 AM – 7:00 PM</b><span>Shift 2</span></div></div>`},
+  {k:'cards',eb:'Three steps to complete your workday',h:'Open each step',cols3:1,cards:[['01','Check-in','<p>Record your attendance on EdgeFi when your selected shift begins.</p>'],['02','Timesheet','<p>Update and submit your timesheet at the end of the workday.</p>'],['03','Check-out','<p>Record your check-out on EdgeFi when your shift ends.</p>']],after:'<p class="lead" style="margin-top:16px"><b>Reminder:</b> Check-in. Update your timesheet. Check-out. Make these three steps part of your daily routine.</p>',tbc:'Late arrival guidelines, missed punch corrections and attendance regularisation.'}],
+  quiz:[['Which platform is used for attendance and timesheets?',['Odoo','EdgeFi','DeskTime'],1],['What are the two available working shifts?',['9:00 AM – 6:00 PM and 10:00 AM – 7:00 PM','8:00 AM – 5:00 PM and 11:00 AM – 8:00 PM','Any eight hours you choose'],0],['What are the three daily actions on EdgeFi?',['Check-in, update your timesheet, check-out','Check-in, apply for leave, check-out','Log in, send email, log out'],0]]},
+ {id:'c3',part:2,n:'03',t:'Leave & Holidays',steps:[
+  {k:'html',eb:'Planning your time off',h:'Need time off? Understand the leave process.',html:'<p class="lead">Before applying for leave, understand your eligibility, available balance and the company’s leave guidelines.</p>'},
+  {k:'cards',eb:'Explore the leave policy',h:'Open each policy card',cards:[['01','Leave Categories',`<p>${SAMPLE} Sample categories to be replaced with the approved policy:</p><ul><li>Casual Leave</li><li>Sick Leave</li><li>Earned / Privilege Leave</li><li>Other applicable leave categories</li></ul>`],['02','Leave Eligibility','<p>Understand:</p><ul><li>Annual leave entitlement.</li><li>Eligibility during probation.</li><li>Leave accrual and balance.</li><li>Carry-forward and other applicable conditions.</li></ul>'],['03','Applying for Leave',`<p>${SAMPLE} Sample process:</p><ol><li>Review your available leave balance.</li><li>Discuss planned leave with your reporting manager, where required.</li><li>Submit your leave request through the approved platform.</li><li>Follow the required approval process.</li><li>Check your leave status.</li></ol>`],['04','Leave Assistance',`<p>For general HR and leave-related queries:</p>${mail('hrsupport@bxitech.com','Email')}${mail('Hr@bxitech.com','Distribution list')}`]],tbc:'Leave categories, entitlement, eligibility, application platform, approval hierarchy and holiday calendar.'}],
+  quiz:[['Where should you check the official leave eligibility rules?',['The approved leave policy','A colleague’s advice','Last year’s holiday calendar'],0],['Should you treat a leave request as approved before receiving approval?',['Yes, once it is submitted','No, wait until it is approved','Only if your manager is away'],1],['Which email should you use for general HR-related leave queries?',['fso@bxiventures.com','hrsupport@bxitech.com','marketing.support@bxitech.com'],1]]},
+ {id:'c4',part:2,n:'04',t:'Reimbursements & Finance',steps:[
+  {k:'html',eb:'Understanding expense claims',h:'Business expenses? Know the process.',html:'<p class="lead">If you incur an eligible business-related expense, follow the approved reimbursement policy and submission process.</p><div class="shifts"><div class="shift"><b>Travel</b></div><div class="shift"><b>Conveyance</b></div><div class="shift"><b>Accommodation</b></div><div class="shift"><b>Meals</b></div></div>'},
+  {k:'cards',eb:'Reimbursement guidelines',h:'Sample expense categories',sample:1,cards:[['','Business travel','<p>Sample category. Eligibility and limits follow the approved reimbursement policy.</p>'],['','Local conveyance','<p>Sample category. Eligibility and limits follow the approved reimbursement policy.</p>'],['','Accommodation','<p>Sample category. Eligibility and limits follow the approved reimbursement policy.</p>'],['','Eligible meals','<p>Sample category. Eligibility and limits follow the approved reimbursement policy.</p>'],['','Approved client-related expenses','<p>Sample category. Eligibility and limits follow the approved reimbursement policy.</p>'],['','Other authorised business expenses','<p>Sample category. Eligibility and limits follow the approved reimbursement policy.</p>']]},
+  {k:'html',eb:'Submitting a reimbursement',h:'How to submit a claim',html:`<p>${SAMPLE}</p><ol class="checklist" style="list-style:none;padding:0">${['Check whether the expense is eligible.','Review the applicable expense limit.','Keep the original invoice or supporting receipt.','Submit the claim through the approved process.','Obtain the required approval.','Track the claim until it is processed.'].map((t,i)=>`<li style="animation-delay:${i*.08}s"><b style="font:800 13px var(--display);color:var(--orange);width:22px">0${i+1}</b>${t}</li>`).join('')}</ol><h3 style="font:800 17px var(--display);margin:22px 0 10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">Illustrative expense limits ${SAMPLE}</h3><div class="tw"><table><tr><th>Category</th><th>Approved limit</th></tr><tr><td>Local conveyance</td><td>[Insert limit]</td></tr><tr><td>Meals</td><td>[Insert limit]</td></tr><tr><td>Accommodation</td><td>[Insert limit]</td></tr><tr><td>Business travel</td><td>[Insert policy]</td></tr></table></div>`},
+  {k:'html',eb:'Finance support',h:'Who to contact',html:`<p class="lead">For reimbursement requests, finance approvals, payment and billing queries:</p><div class="reveal"><h4>FSO — Finance Support</h4>${mail('fso@bxiventures.com','Email')}</div>`,tbc:'Eligible categories, limits, claim submission platform, deadlines, approval hierarchy and payment timelines.'}],
+  quiz:[['What should accompany an eligible expense claim?',['The original invoice or supporting receipt','A screenshot of your bank balance','Nothing, the amount is enough'],0],['Where should reimbursement-related queries be raised?',['Internalitsupport@bxitech.com','fso@bxiventures.com','hrsupport@bxitech.com'],1],['Where can you verify the approved reimbursement limits?',['The approved reimbursement policy','Ask any colleague','Use last year’s limits'],0]]},
+ {id:'c5',part:2,n:'05',t:'Your Support Network',steps:[
+  {k:'html',eb:'Know where to get help',h:'You don’t have to figure everything out alone.',html:'<p class="lead">Whether it’s a technical issue, an HR query or a finance-related request, use the appropriate support channel.</p>'},
+  {k:'cards',eb:'Support directory',h:'Open a support category to see its details',cards:[
+    ['01','IT Support',`${mail('Internalitsupport@bxitech.com','Email')}${mail('Internalit2026@bxitech.com','Distribution list')}<p style="margin-top:8px">Raise tickets for:</p><ul><li>Hardware issues.</li><li>Software-related concerns.</li><li>System and application access requests.</li><li>Access-related issues.</li><li>General IT support.</li><li>DeskTime-related issues.</li></ul>`],
+    ['02','Odoo & Internal Application Support',`${mail('bxitechsoftware.support@bxitech.com','Email')}<p style="margin-top:8px">Raise tickets for:</p><ul><li>Odoo login and access issues.</li><li>Odoo technical or functional issues.</li><li>Internal application errors.</li><li>Application access requests.</li><li>Application bugs and concerns.</li><li>General Odoo and internal software support queries.</li></ul>`],
+    ['03','HR Support',`${mail('hrsupport@bxitech.com','Email')}${mail('Hr@bxitech.com','Distribution list')}<p style="margin-top:8px">Raise tickets for:</p><ul><li>General leave-related concerns.</li><li>Hiring and recruitment-related queries.</li><li>Employee resource and support requests.</li><li>General HR assistance.</li></ul>`],
+    ['04','Marketing Support',`${mail('marketing.support@bxitech.com','Email')}<p style="margin-top:8px">Raise tickets for:</p><ul><li>Marketing content-related queries.</li><li>Marketing support requests.</li></ul>`],
+    ['05','Finance Support — FSO',`${mail('fso@bxiventures.com','Email')}<p style="margin-top:8px">Raise tickets for:</p><ul><li>Reimbursement requests.</li><li>Finance-related approvals.</li><li>Payment and billing queries.</li><li>General finance support.</li></ul>`],
+    ['06','Administration Support',`<p>${SAMPLE} Sample scope:</p><ul><li>Office facilities and maintenance.</li><li>Workplace access.</li><li>Seating and workspace arrangements.</li><li>Office supplies.</li><li>Other administrative requirements.</li></ul><p style="margin-top:8px"><b>Contact:</b> [Insert approved administration email and contact details]</p>`]]},
+  {k:'html',eb:'Raising a support ticket',h:'Make your support request clear.',html:`<p class="lead">When raising a ticket, include:</p><ul class="checklist">${['Your name and department.','A clear description of the issue.','The application or service involved.','Relevant screenshots or attachments.','The impact of the issue, where applicable.'].map((t,i)=>`<li style="animation-delay:${i*.08}s">${tick}<span>${t}</span></li>`).join('')}</ul><h3 style="font:800 17px var(--display);margin:22px 0 10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">Escalation flow ${SAMPLE}</h3><div class="flow"><div><b>1</b>Raise a ticket</div><div><b>2</b>Track the request</div><div><b>3</b>Follow up through the designated channel</div><div><b>4</b>Escalate through the approved process if unresolved</div></div>`,tbc:'Ticket response timelines, priority levels, escalation contacts and urgent support procedures.'}],
+  quiz:[['Which email should you use for hardware issues?',['Internalitsupport@bxitech.com','marketing.support@bxitech.com','fso@bxiventures.com'],0],['Which support queue handles Odoo-related issues?',['hrsupport@bxitech.com','bxitechsoftware.support@bxitech.com','Internalit2026@bxitech.com'],1],['Where should you raise reimbursement-related queries?',['IT Support','Marketing Support','Finance Support — FSO'],2]]},
+ {id:'c6',part:2,n:'06',t:'Your Digital Workplace',steps:[
+  {k:'html',eb:'Tools you may use',h:'The tools that help you work',html:'<p class="lead">B11 employees use different platforms to manage everyday work, communication and business processes.</p>'},
+  {k:'cards',eb:'Platform directory',h:'Open each platform to understand its purpose',cards:[
+    ['','EdgeFi','<p><b>Purpose:</b> Attendance and timesheet submission.</p>'],
+    ['','Odoo',`<p><b>Purpose:</b> Internal application support. ${SAMPLE}</p><p>Employee use and workflows to be confirmed.</p>`],
+    ['','DeskTime',`<p><b>Purpose:</b> Listed in IT support scope. ${SAMPLE}</p><p>Actual employee usage to be confirmed.</p>`],
+    ['','Microsoft Teams',`<p>${SAMPLE} Internal communication and collaboration.</p>`],
+    ['','Outlook / Email',`<p>${SAMPLE} Official email communication.</p>`],
+    ['','[HR Platform]',`<p>${SAMPLE} Placeholder: HR and leave processes.</p>`],
+    ['','[Expense Platform]',`<p>${SAMPLE} Placeholder: Reimbursement submission.</p>`]],
+   after:'<p class="note" style="margin-top:12px;color:var(--mist);font-size:13px">Each platform panel will show what it is used for, who needs access, how to log in, basic instructions, the user guide and where to get technical support, once approved.</p>'},
+  {k:'html',eb:'Access & assistance',h:'Need access to a system or application?',html:`<p class="lead">Raise a request through the relevant support queue.</p><div class="reveal"><h4>IT-related access and hardware issues</h4>${mail('Internalitsupport@bxitech.com')}</div><div class="reveal"><h4>Odoo and internal application-related issues</h4>${mail('bxitechsoftware.support@bxitech.com')}</div>`,tbc:'Complete approved platform list, login links, access owners, role-based permissions and user guides.'}],
+  quiz:[['Which platform is used for attendance and timesheets?',['EdgeFi','Microsoft Teams','Odoo'],0],['Where should you raise an application access request?',['Through the relevant support queue','On a team chat group','By asking a colleague for their login'],0],['Where can you find instructions for using an internal platform?',['The platform’s user guide in its information panel','Guess as you go','Search social media'],0]]},
+ {id:'c7',part:2,n:'07',t:'HR, Administration & Guidelines',steps:[
+  {k:'html',eb:'Understanding workplace expectations',h:'A good workplace starts with clear expectations.',html:'<p class="lead">Understand the guidelines that help everyone work effectively and responsibly.</p>'},
+  {k:'cards',eb:'Workplace guidelines',h:'Open each section',cards:[['01','Working Hours','<p>Follow your selected shift and record attendance through EdgeFi.</p>'],['02','Work Location','<p>Understand the applicable work-from-office, hybrid or remote-work arrangements.</p>'],['03','Communication','<p>Use approved communication channels and keep your reporting manager informed about work-related updates.</p>'],['04','Information Security','<p>Follow company policies for handling business information, passwords, devices and confidential data.</p>'],['05','Workplace Conduct','<p>Maintain professional behaviour, respect colleagues and follow the company’s code of conduct.</p>']]},
+  {k:'html',eb:'Administration support',h:'For office and workplace assistance',html:`<div class="reveal"><h4>Administration Team ${SAMPLE}</h4><p><b>Email:</b> [Insert approved email]</p><p><b>Contact person:</b> [Insert name / extension]</p><p><b>Office location:</b> [Insert details]</p></div>`,tbc:'Work arrangements, WFH rules, information security policy and code of conduct.'}],
+  quiz:[['Which platform should you use to record attendance?',['EdgeFi','Outlook','DeskTime'],0],['Where can you find the official workplace guidelines?',['The employee handbook','A team chat','An old email thread'],0],['Who should you contact for office administration assistance?',['The Administration Team','Marketing Support','Finance Support — FSO'],0]]},
+ {id:'c8',part:3,n:'08',t:'Your Business. Your Team. Your Role.',steps:[
+  {k:'html',eb:'The B11 ecosystem',h:'Understand the business you are part of.',html:'<p class="lead">B11’s ecosystem brings together businesses across different industries and areas of expertise. Each business has its own teams, responsibilities and workflows.</p><img class="eco" src="ecosystem.jpg" alt="B11 ecosystem: Since 1971, B11 Ventures, B11Tech, nZeroOne, SIX8 Life Sciences, BTH TENXI, Kulinarik and Chatkaara">'},
+  {k:'bu',eb:'Your business unit',h:'Select your assigned business unit'},
+  {k:'team',eb:'Understanding your team',h:'Know your team and responsibilities.'},
+  {k:'html',eb:'Your role-specific workflow',h:'Understand how your work gets done.',html:`<p class="lead">Each role-specific chapter will cover:</p><div class="cards">${['Your responsibilities','Your daily workflow','Your tools and platforms','Your approvals','Your expected deliverables','Your escalation path','Your learning resources'].map(t=>`<div class="rc" style="cursor:default"><span class="h">${t}</span><span class="sample" style="margin-top:auto;align-self:flex-start">Awaiting business-unit content</span></div>`).join('')}</div>`,tbc:'Each business unit must supply and approve its own workflows. One generic workflow will not be used for all entities.'}],
+  quiz:[['Where can you find your role-specific processes and SOPs?',['In your business-unit learning material','In another company’s website','There are no processes to follow'],0]]},
+ {id:'c9',part:4,n:'09',t:'Your Reference Library',steps:[
+  {k:'html',eb:'One place for important information',h:'Your handbook. Your reference point.',html:'<p class="lead">The employee handbook contains important information about company policies, employee responsibilities and workplace processes.</p>'},
+  {k:'cards',eb:'Explore the handbook',h:'Open each section',cards:['Leave and holiday policy','Attendance and working hours','Timesheet guidelines','Reimbursement policy','Code of conduct','Information security','Work-from-office and remote-work guidelines','Employee benefits','HR and administration contacts','IT and application support'].map(t=>['',t,`<p>${SAMPLE} The approved document will be linked here.</p>`])},
+  {k:'html',eb:'Quick access',h:'Resource links',html:`<p>${SAMPLE}</p><div class="cards">${['Open Employee Handbook','View Leave Policy','View Reimbursement Policy','Open EdgeFi Guide','View Support Directory','View IT Support Process','Open Business-Unit Learning Material'].map(t=>`<button class="rc" disabled style="cursor:not-allowed;opacity:.75"><span class="h">${t}</span><span class="hint" style="color:var(--amber)">Link to be added</span></button>`).join('')}</div>`,tbc:'Approved documents, links and document owners.'}]},
+ {id:'fin',part:5,n:'✓',t:'Completion & Next Steps',steps:[{k:'finish'}]}
+];
+MODS.forEach(m=>{if(m.id!=='w')m.steps.unshift({k:'clip'})});
+const PARTS={1:'Part 1 · Welcome to B11',2:'Part 2 · Your everyday work',3:'Part 3 · Your business unit',4:'Part 4 · Handbook & resources',5:'Part 5 · Completion'};
+const BU=[['B11Tech',['Company and service overview.','Technology capabilities.','Sales, engineering and delivery functions.','Customer engagement and project workflows.','Relevant tools and internal processes.']],['nZeroOne',['Agency positioning and services.','Client onboarding and briefing.','Creative and digital delivery.','Content, design and campaign workflows.','Client communication and approvals.']],['B11 Ventures',['Venture ecosystem and business model.','Investment and venture operations.','Portfolio coordination.','Finance and business workflows.']],['SIX8 Life Sciences',['Life sciences business overview.','Pharma testing and R&D.','QA and regulatory services.','Life sciences engineering.','Client and project workflows.']],['Other Business Units',['[Insert approved business-unit name and its specific learning path.]']]];
+const TEAM=[['mgr','Who is your reporting manager?'],['tm','Who are your immediate team members?'],['fn','Which functions do you work with?'],['ap','Who approves your work?'],['es','Where do you escalate a work-related concern?']];
+
+// ---------- state (local resume, or SCORM inside a learning system) ----------
+let st={m:null,s:0,done:{},first:{},bu:'',notes:{},name:''};
+function findAPI(w){let n=0;while(w&&n<12){try{if(w.API)return w.API}catch(e){}if(w===w.parent)break;w=w.parent;n++}try{if(window.opener&&window.opener.API)return window.opener.API}catch(e){}return null}
+const API=findAPI(window);
+if(API){try{API.LMSInitialize('');const sd=API.LMSGetValue('cmi.suspend_data');if(sd)st=Object.assign(st,JSON.parse(sd));const nm=API.LMSGetValue('cmi.core.student_name');if(nm&&!st.name){const p=nm.split(',');st.name=(p.length>1?p[1].trim()+' '+p[0].trim():nm).trim()}if(API.LMSGetValue('cmi.core.lesson_status')==='not attempted')API.LMSSetValue('cmi.core.lesson_status','incomplete')}catch(e){}}
+else{try{const s=localStorage.getItem('b11-onboarding-v3');if(s)st=Object.assign(st,JSON.parse(s))}catch(e){}}
+function save(){const j=JSON.stringify(st);if(API){try{API.LMSSetValue('cmi.suspend_data',j);API.LMSCommit('')}catch(e){}}else{try{localStorage.setItem('b11-onboarding-v3',j)}catch(e){}}}
+window.addEventListener('beforeunload',()=>{save();if(API){try{API.LMSFinish('')}catch(e){}}});
+const REQ=MODS.filter(m=>m.id!=='fin');
+function progress(){const p=Math.round(REQ.filter(m=>st.done[m.id]).length/REQ.length*100);$('barFill').style.width=p+'%';$('progTxt').textContent=p+'% complete'}
+function score(){let c=0,t=0;MODS.forEach(m=>(m.quiz||[]).forEach((q,i)=>{t++;if(st.first[m.id+'-'+i]===true)c++}));return{c,t}}
+
+// ---------- navigation ----------
+function buildNav(){let h='',last=0;MODS.forEach((m,k)=>{if(m.part!==last){if(last)h+='</ol>';h+=`<h2>${PARTS[m.part]}</h2><ol>`;last=m.part}
+  h+=`<li><button class="mi" data-k="${k}"><span class="n">${m.n}</span><span class="t">${m.t}</span><span class="s"></span></button></li>`});$('nav').innerHTML=h+'</ol>';
+  $('nav').querySelectorAll('.mi').forEach(b=>b.addEventListener('click',()=>open(+b.dataset.k,0)))}
+function refreshNav(){$('nav').querySelectorAll('.mi').forEach(b=>{const m=MODS[+b.dataset.k];b.classList.toggle('on',st.m===+b.dataset.k);b.classList.toggle('done',!!st.done[m.id]);b.querySelector('.s').textContent=st.done[m.id]?'✓ Done':''})}
+function stepsOf(m){return m.steps.length+(m.quiz?m.quiz.length:0)}
+function open(k,s){st.m=k;st.s=s||0;save();render();window.scrollTo({top:0,behavior:'smooth'})}
+
+// ---------- rendering ----------
+const body=$('body');
+function render(){refreshNav();progress();
+  if(st.m===null){home();return}
+  const m=MODS[st.m],n=stepsOf(m),i=st.s;
+  $('crumb').textContent=`${PARTS[m.part]} · ${m.t}`;
+  $('dots').innerHTML=n>1?Array.from({length:n},(_,j)=>`<i class="${j===i?'on':j<i?'seen':''}"></i>`).join(''):'';
+  $('back').hidden=false;$('back').textContent=i===0?'All modules':'Back';$('footNote').textContent='';
+  const isQuiz=i>=m.steps.length;
+  if(isQuiz)renderQuiz(m,i-m.steps.length);else renderStep(m,m.steps[i]);
+  const lastStep=i===n-1;
+  $('next').textContent=lastStep?(m.id==='fin'?'':'Finish module'):'Next';$('next').hidden=m.id==='fin';
+  if(!isQuiz)$('next').disabled=false}
+function home(){$('crumb').textContent='Home';$('dots').innerHTML='';$('back').hidden=true;$('next').hidden=false;$('next').disabled=false;
+  const nx=MODS.findIndex(m=>!st.done[m.id]);$('next').textContent=nx<0?'View certificate':(Object.keys(st.done).length?'Continue':'Start');$('footNote').textContent='';
+  body.innerHTML=`<p class="eyebrow">Employee onboarding</p><h2 class="title">Welcome to B11 Technology.</h2><p class="lead">Work through each module at your own pace. You can revisit any chapter at any time. Items tagged ${SAMPLE} are examples awaiting approval.</p>
+  <div class="home">${MODS.map((m,k)=>`<button class="hm${st.done[m.id]?' done':''}" data-k="${k}"><span class="k">${PARTS[m.part].split(' · ')[0]} · ${m.n}</span><span class="h">${m.t}</span><span class="st">${st.done[m.id]?'✓ Completed':(m.quiz?m.quiz.length+' question'+(m.quiz.length>1?'s':''):m.id==='w'?'2-minute video':'Video and activities')}</span></button>`).join('')}</div>`;
+  body.querySelectorAll('.hm').forEach(b=>b.addEventListener('click',()=>open(+b.dataset.k,0)))}
+function wireCards(stp){const grid=body.querySelector('.cards[data-r]');if(!grid)return;const rv=body.querySelector('.reveal[data-r]');const seen=new Set();
+  grid.addEventListener('click',e=>{const c=e.target.closest('.rc');if(!c)return;const j=+c.dataset.j;seen.add(j);c.classList.add('open');c.querySelector('.hint').textContent='✓ Opened';
+    const [k,h,html]=stp.cards[j];rv.hidden=false;rv.innerHTML=`<h4>${k?`<span style="color:var(--orange)">${k}</span>`:''}${h}</h4>${html}`;wireCopy(rv);rv.scrollIntoView({block:'nearest',behavior:'smooth'})})}
+function wireCopy(root){root.querySelectorAll('[data-copy]').forEach(b=>b.addEventListener('click',()=>{const t=b.dataset.copy;const done=()=>{b.textContent='Copied';setTimeout(()=>b.textContent='Copy',1500)};
+  try{navigator.clipboard.writeText(t).then(done,()=>{sel(b)})}catch(e){sel(b)}}))}
+function sel(b){const c=b.previousElementSibling;const r=document.createRange();r.selectNodeContents(c);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected — press Ctrl+C'}
+function renderStep(m,stp){
+  const head=`<p class="eyebrow">${stp.eb||''}</p><h2 class="title">${stp.h||''}</h2>`;
+  if(stp.k==='video'){body.innerHTML=`<p class="eyebrow">Part 1 · Introductory video</p><h2 class="title">Welcome to B11</h2><p class="lead">A short introduction to who we are, where we come from and how we work.</p><div class="video"><video id="wv" src="w.mp4" poster="poster.jpg" controls playsinline preload="metadata"></video></div>`;
+    $('wv').addEventListener('timeupdate',e=>{const v=e.target;if(v.duration&&v.currentTime/v.duration>.9&&!st.done.w){st.done.w=1;save();progress();refreshNav()}});return}
+  if(stp.k==='clip'){body.innerHTML=`<p class="eyebrow">Watch first</p><h2 class="title">${m.t}</h2><p class="lead">Watch this short chapter video, then select <b>Next</b> to explore the details and check what you have learnt.</p><div class="video"><video src="${m.id}.mp4" poster="" controls playsinline muted autoplay preload="auto"></video></div>`;return}
+  if(stp.k==='list'){body.innerHTML=head+`<p class="lead">${stp.lead}</p><ul class="checklist">${stp.items.map((t,i)=>`<li style="animation-delay:${.15+i*.18}s">${tick}<span>${t}</span></li>`).join('')}</ul>`;return}
+  if(stp.k==='cards'){body.innerHTML=head+(stp.sample?`<p>${SAMPLE}</p>`:'')+`<div class="cards" data-r="1"${stp.cols3?' style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))"':''}>${stp.cards.map(([k,h],j)=>`<button class="rc" data-j="${j}">${k?`<span class="k">${k}</span>`:''}<span class="h">${h}</span><span class="hint">Select to open</span></button>`).join('')}</div><div class="reveal" data-r="1" hidden></div>${stp.after||''}${stp.tbc?tbc(stp.tbc):''}`;wireCards(stp);return}
+  if(stp.k==='html'){body.innerHTML=head+stp.html+(stp.tbc?tbc(stp.tbc):'');wireCopy(body);return}
+  if(stp.k==='bu'){body.innerHTML=head+`<p class="lead">Select your assigned business unit to see the topics in its learning path.</p><div class="cards">${BU.map(([n],j)=>`<button class="rc${st.bu===n?' open':''}" data-j="${j}"><span class="h">${n}</span><span class="hint">${st.bu===n?'✓ Selected':'Select'}</span></button>`).join('')}</div><div class="reveal" id="buOut" hidden></div>`;
+    const show=j=>{const [n,t]=BU[j];$('buOut').hidden=false;$('buOut').innerHTML=`<h4>${n} learning path <span class="sample">Awaiting business-unit content</span></h4><ul>${t.map(x=>`<li>${x}</li>`).join('')}</ul>`};
+    if(st.bu)show(BU.findIndex(b=>b[0]===st.bu));
+    body.querySelector('.cards').addEventListener('click',e=>{const c=e.target.closest('.rc');if(!c)return;const j=+c.dataset.j;st.bu=BU[j][0];save();body.querySelectorAll('.rc').forEach(x=>{x.classList.remove('open');x.querySelector('.hint').textContent='Select'});c.classList.add('open');c.querySelector('.hint').textContent='✓ Selected';show(j)});return}
+  if(stp.k==='team'){body.innerHTML=head+`<p class="lead">Every employee should understand who they report to, who their team members are, which functions they work with, who approves their work and where to escalate a concern. Note yours below for quick reference.</p>${TEAM.map(([id,l])=>`<div class="note"><label for="n-${id}">${l}</label><input id="n-${id}" value="${esc(st.notes[id]||'').replace(/"/g,'&quot;')}" placeholder="Add a note"></div>`).join('')}<p class="note" style="color:var(--mist);font-size:13px">Your notes stay on this device${API?' and in your learning record':''}.</p>`;
+    TEAM.forEach(([id])=>$('n-'+id).addEventListener('input',e=>{st.notes[id]=e.target.value;save()}));return}
+  if(stp.k==='finish'){finish();return}}
+function renderQuiz(m,qi){const [q,o,a]=m.quiz[qi];const key=m.id+'-'+qi;let tried=st.first[key]!==undefined;
+  body.innerHTML=`<div class="q"><p class="eyebrow">Knowledge check · Question ${qi+1} of ${m.quiz.length}</p><h3>${q}</h3><div class="opts">${o.map((t,i)=>`<button class="opt" data-i="${i}"><b>${'ABCD'[i]}</b>${t}</button>`).join('')}</div><p class="fb" id="fb" hidden></p></div>`;
+  $('next').disabled=true;
+  body.querySelector('.opts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;const ok=+b.dataset.i===a;
+    if(!tried){st.first[key]=ok;tried=true;save()}
+    body.querySelectorAll('.opt').forEach(x=>x.classList.remove('right','wrong'));b.classList.add(ok?'right':'wrong');
+    const fb=$('fb');fb.hidden=false;fb.className='fb '+(ok?'ok':'no');fb.textContent=ok?'Correct.':'Not quite. Try another answer.';if(ok)$('next').disabled=false})}
+function finish(){const left=REQ.filter(m=>!st.done[m.id]);$('crumb').textContent=PARTS[5];
+  if(left.length){body.innerHTML=`<p class="eyebrow">Almost there</p><h2 class="title">Complete the remaining modules to finish.</h2><div class="cards">${left.map(m=>`<button class="rc" data-k="${MODS.indexOf(m)}"><span class="h">${m.t}</span><span class="hint">Go to module</span></button>`).join('')}</div>`;
+    body.querySelector('.cards').addEventListener('click',e=>{const c=e.target.closest('.rc');if(c)open(+c.dataset.k,0)});return}
+  if(st.done.fin){cert();return}
+  body.innerHTML=`<p class="eyebrow">You’re ready to get started</p><h2 class="title">You’re ready to get started.</h2><p class="lead">You now know the basics of working at B11, the tools used in your daily routine, the support channels available and where to find important employee information.</p>
+  <p class="lead" style="margin-bottom:8px"><b>Remember:</b></p><ul class="checklist">${['Follow the approved processes.','Use the right tools.','Reach out when you need support.','Keep learning about your role and business.'].map((t,i)=>`<li style="animation-delay:${i*.15}s">${tick}<span>${t}</span></li>`).join('')}</ul>
+  <div class="note" style="margin-top:22px"><label for="nm">Your full name, for your completion record</label><input id="nm" autocomplete="name" value="${esc(st.name||'').replace(/"/g,'&quot;')}"></div><button class="btn" id="fin">Complete onboarding</button>`;
+  const go=()=>{const v=$('nm').value.trim();if(!v){$('nm').focus();return}st.name=v;st.done.fin=1;st.when=new Date().toISOString();save();
+    const s=score();if(API){try{API.LMSSetValue('cmi.core.score.min','0');API.LMSSetValue('cmi.core.score.max','100');API.LMSSetValue('cmi.core.score.raw',String(Math.round(s.c/s.t*100)));API.LMSSetValue('cmi.core.lesson_status','completed');API.LMSCommit('')}catch(e){}}
+    progress();refreshNav();cert()};
+  $('fin').addEventListener('click',go);$('nm').addEventListener('keydown',e=>{if(e.key==='Enter')go()})}
+function cert(){const s=score();const d=new Date(st.when||Date.now()).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
+  body.innerHTML=`<div class="cert"><img src="bxi.png" alt="B11 Technology" style="width:86px;height:86px;object-fit:contain"><p class="eyebrow" style="margin-top:8px">Onboarding complete</p><p style="margin:0">This certifies that</p><div class="who">${esc(st.name)}</div><p>has completed the B11 Technology Employee Onboarding on ${d}.</p>
+  <div class="stats"><div><b>${s.c} / ${s.t}</b><span>Correct first time</span></div><div><b>${REQ.length} / ${REQ.length}</b><span>Modules completed</span></div><div><b>${esc(st.bu||'—')}</b><span>Business unit</span></div></div>
+  <h2 class="title" style="font-size:26px;margin-top:10px">WELCOME TO B11 TECHNOLOGY.</h2><p style="margin:0;color:var(--orange);font:800 18px var(--display)">Your journey starts here.</p><div class="row" style="margin-top:18px"><button class="btn ghost" id="again">Restart onboarding</button></div></div>`;
+  $('again').addEventListener('click',()=>{st={m:null,s:0,done:{},first:{},bu:st.bu,notes:st.notes,name:st.name};save();render()})}
+
+$('next').addEventListener('click',()=>{if(st.m===null){const nx=MODS.findIndex(m=>!st.done[m.id]);open(nx<0?MODS.length-1:nx,0);return}
+  const m=MODS[st.m],n=stepsOf(m);if(st.s<n-1){st.s++;save();render();window.scrollTo({top:0,behavior:'smooth'});return}
+  st.done[m.id]=1;save();const nx=MODS.findIndex((x,k)=>k>st.m&&!st.done[x.id]);open(nx<0?MODS.length-1:nx,0)});
+$('back').addEventListener('click',()=>{if(st.m===null)return;if(st.s>0){st.s--;save();render()}else{st.m=null;save();render()}});
+buildNav();render();
+})();
+</script>
+</body></html>
