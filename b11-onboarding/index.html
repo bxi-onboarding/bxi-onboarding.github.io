@@ -110,18 +110,85 @@ th{font:700 12px var(--body);letter-spacing:.06em;text-transform:uppercase;color
 .hm .h{font:800 17px var(--display)} .hm .st{font-size:13px;color:var(--mist)} .hm.done .st{color:var(--good);font-weight:600}
 .cert{text-align:center;border:2px solid var(--orange-soft);background:linear-gradient(160deg,#fff,#FFF8F2);border-radius:18px;padding:28px;max-width:720px;margin:0 auto}
 .cert .who{font:900 clamp(24px,3vw,36px) var(--display);margin:6px 0}
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:16px 0}
 .stats div{background:var(--ground);border-radius:12px;padding:10px}
 .stats b{display:block;font:800 19px var(--display);font-variant-numeric:tabular-nums} .stats span{font-size:12px;color:var(--slate)}
 @media (max-width:920px){.main{grid-template-columns:minmax(0,1fr)} nav{position:static;max-height:280px}}
 @media (max-width:600px){.body{padding:20px 16px}.ph,.foot{padding:12px 16px}.steps3{grid-template-columns:minmax(0,1fr)}.dots{display:none}.prog{flex-basis:100%;max-width:none;min-width:0}.stats{grid-template-columns:minmax(0,1fr)}}
+.prog .scorechip{flex:none}
+.scorechip{display:inline-flex;align-items:center;gap:6px;background:var(--orange-soft);border:1px solid #F6C9A5;border-radius:999px;padding:5px 12px;font:800 14px var(--display);color:var(--orange);font-variant-numeric:tabular-nums;white-space:nowrap}
+.scorechip.bump{animation:bump .6s ease}
+@keyframes bump{40%{transform:scale(1.18)}}
+.qhead{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.qtype{font:700 12px var(--body);color:var(--blue);background:var(--blue-soft);border-radius:999px;padding:4px 10px}
+.pts{font:700 12px var(--body);color:var(--orange);background:var(--orange-soft);border-radius:999px;padding:4px 10px}
+.qbtns{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.qbtns:empty{display:none}
+.hintline{color:var(--mist);font-size:13px;margin:0 0 10px}
+.opt.sel{border-color:var(--blue);background:var(--blue-soft)} .opt.sel b{background:var(--blue);color:#fff}
+.opt[disabled]{cursor:default}
+.ord{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px;max-width:760px}
+.ord li{display:flex;align-items:center;gap:10px;padding:8px 10px 8px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff}
+.ord .num{font:800 14px var(--display);color:var(--orange);width:20px;font-variant-numeric:tabular-nums}
+.ord .t{flex:1}
+.ord button{all:unset;box-sizing:border-box;cursor:pointer;width:40px;height:40px;display:grid;place-items:center;border-radius:10px;border:1.5px solid var(--line);font-weight:800;color:var(--ink);background:#fff}
+.ord button:hover{border-color:var(--blue)} .ord button:focus-visible{outline:2px solid var(--blue)} .ord button[disabled]{opacity:.3;cursor:default}
+.ord li.right{border-color:var(--good);background:var(--good-soft)} .ord li.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.match{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px 16px;max-width:900px}
+.match .col{display:flex;flex-direction:column;gap:8px}
+.mt{all:unset;box-sizing:border-box;cursor:pointer;padding:10px 12px;border:1.5px solid var(--line);border-radius:12px;background:#fff;display:flex;gap:10px;align-items:center;min-height:56px;font-size:14px;word-break:break-word}
+.mt:hover{border-color:var(--blue)} .mt:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.mt .tag{width:26px;height:26px;border-radius:50%;flex:none;display:grid;place-items:center;font:800 12px var(--display);color:#fff;background:#C9D2E6}
+.mt.act{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft)}
+.mt.right{border-color:var(--good);background:var(--good-soft)} .mt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.sorter{display:flex;flex-direction:column;gap:10px;max-width:900px}
+.sc{border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff}
+.sc p{margin:0 0 8px;font-weight:600}
+.bins{display:flex;flex-wrap:wrap;gap:6px}
+.bin{all:unset;box-sizing:border-box;cursor:pointer;font:600 13px var(--body);padding:8px 12px;border-radius:999px;border:1.5px solid var(--line);background:#fff;min-height:36px}
+.bin:hover{border-color:var(--blue)} .bin:focus-visible{outline:2px solid var(--blue)} .bin.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.sc.right{border-color:var(--good);background:var(--good-soft)} .sc.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.mem{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:780px}
+.card{all:unset;box-sizing:border-box;cursor:pointer;aspect-ratio:4/3;perspective:700px;display:block}
+.card:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:14px}
+.card .in{position:relative;display:block;width:100%;height:100%;transition:transform .45s ease;transform-style:preserve-3d}
+.card.up .in,.card.got .in{transform:rotateY(180deg)}
+.card .f,.card .b{position:absolute;inset:0;border-radius:14px;display:grid;place-items:center;text-align:center;padding:8px;backface-visibility:hidden;-webkit-backface-visibility:hidden;font:700 14px/1.25 var(--display)}
+.card .f{background:linear-gradient(140deg,var(--ink),#1F3F86);color:#fff;font:900 22px var(--display);letter-spacing:.04em}
+.card .b{background:#fff;border:1.5px solid var(--line);transform:rotateY(180deg);color:var(--ink)}
+.card.got .b{border-color:var(--good);background:var(--good-soft)}
+.timer{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:8px 0 18px;max-width:760px} .timer i{display:block;height:100%;background:var(--orange);width:100%;transition:width .2s linear}
+.badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:6px 0 14px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:#FFF7DD;border:1.5px solid #E3B341;color:#6B4A00;font:700 13px var(--body)}
+.rank{display:inline-block;margin:6px 0 2px;padding:6px 16px;border-radius:999px;font:800 15px var(--display);color:#fff}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+.confetti i{position:absolute;top:-14px;width:8px;height:14px;border-radius:2px;animation:fall 1.6s ease-in forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.3}}
+@media (prefers-reduced-motion:reduce){.confetti{display:none}.card .in{transition:none}.scorechip.bump{animation:none}}
+@media (max-width:600px){.mem{grid-template-columns:repeat(2,minmax(0,1fr))}.match{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px 8px}.mt{font-size:13px;padding:8px}}
+.cpbox{margin-top:12px;border:2px solid var(--orange);border-radius:14px;padding:16px 18px;background:var(--orange-soft)}
+.cpbox h3{font:800 18px/1.3 var(--display);margin:0 0 12px}
+.missions{list-style:none;margin:0;padding:0;display:grid;gap:8px;max-width:780px}
+.msn{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:flex;align-items:center;gap:14px;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;min-height:52px}
+.msn:hover{border-color:var(--blue)} .msn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.msn .box{width:26px;height:26px;border-radius:8px;border:2px solid #C9D2E6;display:grid;place-items:center;font-weight:800;color:#fff;flex:none}
+.msn span:nth-child(2){flex:1}
+.msn.on{border-color:var(--good);background:var(--good-soft)} .msn.on .box{background:var(--good);border-color:var(--good)}
+.lb{margin-top:22px;border:1px solid var(--line);border-radius:16px;padding:16px 18px;background:#FBFCFF;max-width:720px;margin-inline:auto}
+.lb h3{font:800 18px var(--display);margin:0 0 10px}
+.lb ol{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.lb li{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:10px;background:#fff;border:1px solid var(--line)}
+.lb li.me{border-color:var(--orange);background:var(--orange-soft)}
+.lb .r{font:800 14px var(--display);width:22px;color:var(--orange);font-variant-numeric:tabular-nums}
+.lb .n{flex:1;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb .p{font:800 14px var(--display);font-variant-numeric:tabular-nums;white-space:nowrap}
 </style>
 </head><body>
 
 <div class="shell">
   <header>
     <div class="brand"><img src="bxi.png" alt="B11 Technology"><div><h1>Employee Onboarding</h1><p>Welcome to B11 Technology</p></div></div>
-    <div class="prog"><span id="progTxt">0% complete</span><div class="bar"><i id="barFill"></i></div></div>
+    <div class="prog"><span class="scorechip" id="scoreChip" title="Your points"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8z"/></svg><span id="scoreTxt">0</span> pts</span><span id="progTxt">0% complete</span><div class="bar"><i id="barFill"></i></div></div>
   </header>
   <div class="main">
     <nav aria-label="Modules" id="nav"></nav>
@@ -204,34 +271,191 @@ const MODS=[
   {k:'html',eb:'Quick access',h:'Resource links',html:`<p>${SAMPLE}</p><div class="cards">${['Open Employee Handbook','View Leave Policy','View Reimbursement Policy','Open EdgeFi Guide','View Support Directory','View IT Support Process','Open Business-Unit Learning Material'].map(t=>`<button class="rc" disabled style="cursor:not-allowed;opacity:.75"><span class="h">${t}</span><span class="hint" style="color:var(--amber)">Link to be added</span></button>`).join('')}</div>`,tbc:'Approved documents, links and document owners.'}]},
  {id:'fin',part:5,n:'✓',t:'Completion & Next Steps',steps:[{k:'finish'}]}
 ];
-MODS.forEach(m=>{if(m.id!=='w')m.steps.unshift({k:'clip'})});
+MODS.splice(MODS.findIndex(m=>m.id==='fin'),0,{id:'ms',part:5,n:'★',t:'First-week missions',steps:[{k:'missions'}]});
+MODS.forEach(m=>{if(m.id!=='w'&&m.id!=='ms')m.steps.unshift({k:'clip'})});
 const PARTS={1:'Part 1 · Welcome to B11',2:'Part 2 · Your everyday work',3:'Part 3 · Your business unit',4:'Part 4 · Handbook & resources',5:'Part 5 · Completion'};
 const BU=[['B11Tech',['Company and service overview.','Technology capabilities.','Sales, engineering and delivery functions.','Customer engagement and project workflows.','Relevant tools and internal processes.']],['nZeroOne',['Agency positioning and services.','Client onboarding and briefing.','Creative and digital delivery.','Content, design and campaign workflows.','Client communication and approvals.']],['B11 Ventures',['Venture ecosystem and business model.','Investment and venture operations.','Portfolio coordination.','Finance and business workflows.']],['SIX8 Life Sciences',['Life sciences business overview.','Pharma testing and R&D.','QA and regulatory services.','Life sciences engineering.','Client and project workflows.']],['Other Business Units',['[Insert approved business-unit name and its specific learning path.]']]];
+// ---------- activities: question types, puzzles and scoring ----------
+const QZ={
+ w:[
+  {t:'multi',q:'Which of these describe how we work at B11? Select all that apply.',o:['Take ownership','Collaborate across teams','Keep information to yourself','Communicate clearly','Work with integrity'],a:[0,1,3,4],why:'We take ownership, collaborate, communicate clearly, work with integrity and focus on meaningful outcomes.'},
+  {t:'mc',q:'The B11 ecosystem’s roots go back to which year?',o:['1971','1999','2015'],a:0,why:'The ecosystem’s legacy goes back to 1971.'}],
+ c1:[
+  {t:'mc',q:'Which joining step gives you access to the platforms you need for your role?',o:['Employee Documentation','System Access','Workplace Familiarisation'],a:1,why:'System Access covers the systems and platforms required for your role.'},
+  {t:'multi',q:'Which of these are part of your joining checklist? Select all that apply.',o:['Employee Documentation','Team Introduction','Planning the office party','Employee Handbook','Workplace Familiarisation'],a:[0,1,3,4],why:'The checklist is documentation, system access, team introduction, workplace familiarisation and the employee handbook.'},
+  {t:'tf',q:'You should wait until the end of your first week before connecting with your reporting manager.',a:false,why:'Connecting with your reporting manager and team is one of the first things to do.'}],
+ c2:[
+  {t:'order',q:'Put your daily EdgeFi routine in the right order.',o:['Check-in when your shift begins','Update and submit your timesheet','Check-out when your shift ends'],why:'Check-in, update your timesheet, check-out: every working day.'},
+  {t:'mc',q:'Which platform is used for attendance and timesheets?',o:['Odoo','EdgeFi','DeskTime'],a:1,why:'EdgeFi handles attendance and timesheet submission.'},
+  {t:'multi',q:'Which of these are available working shifts? Select all that apply.',o:['9:00 AM – 6:00 PM','8:00 AM – 5:00 PM','10:00 AM – 7:00 PM','11:00 AM – 8:00 PM'],a:[0,2],why:'The two shifts are 9:00 AM – 6:00 PM and 10:00 AM – 7:00 PM.'},
+  {t:'tf',q:'You can work any eight hours you like, as long as you submit a timesheet.',a:false,why:'You choose one of the two available shifts and record attendance in EdgeFi.'}],
+ c3:[
+  {t:'tf',q:'Once you submit a leave request, you can treat it as approved.',a:false,why:'Wait for the required approval before treating leave as approved.'},
+  {t:'order',q:'Arrange the leave application steps in order.',o:['Review your available leave balance','Discuss planned leave with your reporting manager','Submit your request through the approved platform','Follow the required approval process','Check your leave status'],why:'Check your balance, discuss, submit, get approval, then track the status. This process is a sample awaiting approval.'},
+  {t:'mc',q:'Which email should you use for general HR and leave queries?',o:['fso@bxiventures.com','hrsupport@bxitech.com','marketing.support@bxitech.com'],a:1,why:'HR Support handles leave queries: hrsupport@bxitech.com.'}],
+ c4:[
+  {t:'order',q:'Put the reimbursement steps in order.',o:['Check whether the expense is eligible','Keep the original invoice or receipt','Submit the claim through the approved process','Obtain the required approval','Track the claim until it is processed'],why:'Eligibility first, keep the proof, submit, get approval, then track it.'},
+  {t:'mc',q:'Where should reimbursement queries be raised?',o:['Internalitsupport@bxitech.com','fso@bxiventures.com','hrsupport@bxitech.com'],a:1,why:'Finance Support (FSO) handles reimbursements: fso@bxiventures.com.'},
+  {t:'tf',q:'You need the original invoice or a supporting receipt for an expense claim.',a:true,why:'Every claim needs the original invoice or a supporting receipt.'}],
+ c5:[
+  {t:'sort',q:'Who do I contact? Send each request to the right team.',bins:['IT','Odoo & Apps','HR','Finance (FSO)','Marketing','Administration'],items:[['My laptop will not start.',0],['I cannot log in to Odoo.',1],['I have a question about my leave balance.',2],['My reimbursement has not been paid.',3],['I need help with marketing content.',4],['My desk chair is broken.',5]],why:'Each support queue has its own scope. Using the right one gets you help faster.'},
+  {t:'match',q:'Match each team to its support email.',l:['IT Support','Odoo & Internal Apps','HR Support','Finance Support'],r:['Internalitsupport@bxitech.com','bxitechsoftware.support@bxitech.com','hrsupport@bxitech.com','fso@bxiventures.com'],why:'All of these are in the Support Directory, with a Copy button.'},
+  {t:'multi',q:'What should a good support ticket include? Select all that apply.',o:['Your name and department','A clear description of the issue','Your password','The application or service involved','Relevant screenshots','Your bank details'],a:[0,1,3,4],why:'Include the details that help the team, and never share passwords or bank details.'}],
+ c6:[
+  {t:'mem',q:'Memory match: pair each tool with what it is used for.',pairs:[['EdgeFi','Attendance and timesheets'],['Microsoft Teams','Chat and collaboration'],['Outlook','Official email'],['Odoo','Internal applications']],why:'Teams, Outlook and Odoo usage is still awaiting approval.'},
+  {t:'mc',q:'Where should you raise an application access request?',o:['Through the relevant support queue','On a team chat group','By asking a colleague for their login'],a:0,why:'Always request access through the relevant support queue.'}],
+ c7:[
+  {t:'tf',q:'It is fine to share your password with a teammate who needs quick access.',a:false,why:'Never share passwords. Your teammate can request access through IT.'},
+  {t:'mc',q:'You are running late. What is the right thing to do?',o:['Inform your reporting manager and follow the attendance guidelines','Check in later and say nothing','Skip check-in for the day'],a:0,why:'Keep your manager informed and follow the attendance guidelines.'},
+  {t:'match',q:'Match each situation to the guideline that covers it.',l:['Which shift do I follow?','Can I work from home?','How should I handle client data?','A colleague is being disrespectful.'],r:['Working Hours','Work Location','Information Security','Workplace Conduct'],why:'Every guideline is explained in the employee handbook.'}],
+ c8:[
+  {t:'mc',q:'Where can you find your role-specific processes and SOPs?',o:['In your business-unit learning material','On another company’s website','There are no processes to follow'],a:0,why:'Each business unit provides its own learning path and SOPs.'},
+  {t:'tf',q:'Every business in the B11 ecosystem follows exactly the same workflow.',a:false,why:'Each business has its own teams, responsibilities and workflows.'}],
+ c9:[
+  {t:'match',q:'Which handbook section answers each question?',l:['How many leave days do I get?','Can I claim a taxi fare?','Can I work from home?','Who do I contact about my laptop?'],r:['Leave and holiday policy','Reimbursement policy','Work-from-office and remote-work guidelines','IT and application support'],why:'The handbook is your reference point for every policy question.'},
+  {t:'mc',q:'Where should you look first for official policies?',o:['The employee handbook','A colleague’s notes','Social media'],a:0,why:'The employee handbook holds the approved policies.'}]
+};
+MODS.forEach(m=>{if(QZ[m.id])m.quiz=QZ[m.id]});
+MODS.find(m=>m.id==='fin').steps.splice(1,0,{k:'speed'});
+const PTS={mc:10,tf:10,multi:20,order:20,match:20,sort:30,mem:30};
+const TL={mc:'Multiple choice',tf:'True or false',multi:'Select all that apply',order:'Put in order',match:'Match the pairs',sort:'Sort the requests',mem:'Memory match'};
+const P=it=>it.p||PTS[it.t];
+const maxOf=m=>(m.quiz||[]).reduce((a,it)=>a+P(it),0);
+const earnedOf=m=>(m.quiz||[]).reduce((a,it,i)=>a+(st.pts[m.id+'-'+i]||0),0);
+const perfect=m=>!!m.quiz&&m.quiz.every((it,i)=>st.pts[m.id+'-'+i]===P(it));
+function score(){let c=0,t=0;MODS.forEach(m=>{c+=earnedOf(m);t+=maxOf(m)});return{c,t,b:bonusOf(),pct:t?Math.round(c/t*100):0}}
+function showScore(b){const s=score();$('scoreTxt').textContent=s.c+s.b;postScore();if(b){const c=$('scoreChip');c.classList.remove('bump');void c.offsetWidth;c.classList.add('bump')}}
+function seedShuf(arr,seed){const a=arr.map((x,i)=>[x,i]);let s=7;for(const ch of seed)s=(s*31+ch.charCodeAt(0))>>>0;for(let i=a.length-1;i>0;i--){s=(s*1103515245+12345)>>>0;const j=s%(i+1);[a[i],a[j]]=[a[j],a[i]]}if(a.length>1&&a.every((x,i)=>x[1]===i))a.push(a.shift());return a}
+let T=null;
+function confetti(){try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return}catch(e){}const c=document.createElement('div');c.className='confetti';const cols=['#E8650A','#2F6BFF','#14804A','#F6B98C','#0B1B3F'];
+  c.innerHTML=Array.from({length:70},(_,i)=>`<i style="left:${(Math.random()*100).toFixed(1)}%;background:${cols[i%5]};animation-delay:${(Math.random()*.5).toFixed(2)}s;animation-duration:${(1.2+Math.random()).toFixed(2)}s"></i>`).join('');document.body.appendChild(c);setTimeout(()=>c.remove(),2800)}
+
+function renderQuiz(m,qi){const it=m.quiz[qi],key=m.id+'-'+qi,p=P(it),N=m.quiz.length;let fails=0,reveal=()=>{};
+  const got=st.pts[key];
+  body.innerHTML=`<div class="q"><p class="eyebrow">Activity ${qi+1} of ${N}</p><div class="qhead"><span class="qtype">${TL[it.t]}</span><span class="pts" id="ptag">${got===undefined?p+' points':'Earned '+got+' of '+p+' points'}</span></div><h3>${it.q}</h3><div id="qa"></div><div class="qbtns" id="qbtns"></div><p class="fb" id="fb" hidden></p></div>`;
+  const qa=$('qa'),btns=$('qbtns');$('next').disabled=!st.solved[key];
+  const fb=(ok,msg)=>{const f=$('fb');f.hidden=false;f.className='fb '+(ok?'ok':'no');f.innerHTML=msg};
+  const award=n=>{if(st.pts[key]===undefined){st.pts[key]=n;save();$('ptag').textContent='Earned '+n+' of '+p+' points';showScore(n>0)}};
+  const solve=()=>{st.solved[key]=1;save();$('next').disabled=false;const r=$('reveal');if(r)r.remove()};
+  const win=(n,msg)=>{const first=st.pts[key]===undefined;award(n);solve();fb(true,`<b>${msg||(first&&n?`Correct! +${n} points.`:'Correct.')}</b> ${it.why||''}`)};
+  const lose=(msg,part=0)=>{const first=st.pts[key]===undefined;award(part);fails++;fb(false,(first&&part?`<b>+${part} points for the parts you got right.</b> `:'')+(msg||'Not quite. Try again.'));if(fails>=2&&!$('reveal')&&!st.solved[key])addReveal()};
+  const addReveal=()=>{const b=document.createElement('button');b.className='btn ghost';b.id='reveal';b.textContent='Show the answer';b.onclick=()=>{award(0);reveal();solve();fb(true,'<b>Here is the answer.</b> '+(it.why||''))};btns.appendChild(b)};
+  const submit=(label,fn)=>{const b=document.createElement('button');b.className='btn';b.textContent=label;b.onclick=fn;btns.appendChild(b)};
+  const done=()=>{if(st.solved[key]){reveal();fb(true,'<b>Completed.</b> '+(it.why||''))}};
+  if(it.t==='mc'||it.t==='tf'){const o=it.t==='tf'?['True','False']:it.o,a=it.t==='tf'?(it.a?0:1):it.a;
+    qa.innerHTML=`<div class="opts">${o.map((t,i)=>`<button class="opt" data-i="${i}"><b>${'ABCD'[i]}</b>${t}</button>`).join('')}</div>`;
+    reveal=()=>qa.querySelectorAll('.opt')[a].classList.add('right');done();
+    qa.onclick=e=>{const b=e.target.closest('.opt');if(!b)return;qa.querySelectorAll('.opt').forEach(x=>x.classList.remove('right','wrong'));const ok=+b.dataset.i===a;b.classList.add(ok?'right':'wrong');ok?win(p):lose()};return}
+  if(it.t==='multi'){const sel=new Set();
+    qa.innerHTML=`<div class="opts">${it.o.map((t,i)=>`<button class="opt" data-i="${i}" aria-pressed="false"><b>${'ABCDEF'[i]}</b>${t}</button>`).join('')}</div>`;
+    reveal=()=>qa.querySelectorAll('.opt').forEach((x,i)=>{x.classList.remove('wrong','sel');x.classList.toggle('right',it.a.includes(i))});done();
+    qa.onclick=e=>{const b=e.target.closest('.opt');if(!b)return;const i=+b.dataset.i;sel.has(i)?sel.delete(i):sel.add(i);b.classList.toggle('sel',sel.has(i));b.setAttribute('aria-pressed',sel.has(i));b.classList.remove('right','wrong')};
+    submit('Check answer',()=>{if(!sel.size){fb(false,'Select at least one option.');return}
+      const ok=sel.size===it.a.length&&it.a.every(i=>sel.has(i));qa.querySelectorAll('.opt').forEach((x,i)=>{x.classList.remove('right','wrong');if(sel.has(i))x.classList.add(it.a.includes(i)?'right':'wrong')});
+      ok?win(p):lose([...sel].some(i=>!it.a.includes(i))?'Not quite. Some of your choices are wrong. Try again.':'Not quite. You missed at least one correct option. Try again.')});return}
+  if(it.t==='order'){let cur=seedShuf(it.o,key).map(x=>x[1]);
+    const draw=marks=>{qa.innerHTML=`<ol class="ord">${cur.map((oi,pos)=>`<li class="${marks?(oi===pos?'right':'wrong'):''}"><span class="num">${pos+1}</span><span class="t">${it.o[oi]}</span><button data-u="${pos}" aria-label="Move up"${pos===0?' disabled':''}>↑</button><button data-d="${pos}" aria-label="Move down"${pos===cur.length-1?' disabled':''}>↓</button></li>`).join('')}</ol>`};
+    draw();reveal=()=>{cur=it.o.map((_,i)=>i);draw(true)};done();
+    qa.onclick=e=>{const u=e.target.closest('[data-u]'),d=e.target.closest('[data-d]');if(u){const k=+u.dataset.u;[cur[k-1],cur[k]]=[cur[k],cur[k-1]];draw()}if(d){const k=+d.dataset.d;[cur[k+1],cur[k]]=[cur[k],cur[k+1]];draw()}};
+    submit('Check order',()=>{const n=cur.filter((oi,pos)=>oi===pos).length;draw(true);n===cur.length?win(p):lose(`${n} of ${cur.length} are in the right place. Try again.`,Math.round(p*n/cur.length/2))});return}
+  if(it.t==='match'){const R=seedShuf(it.r,key+'r');let pair={},act=null;const COL=['#2F6BFF','#E8650A','#14804A','#8A3FD1','#B4233C','#0F8A9D'];
+    const draw=marks=>{qa.innerHTML=`<p class="hintline">Select an item on the left, then its match on the right.</p><div class="match"><div class="col">${it.l.map((t,i)=>{const pd=pair[i]!==undefined;return `<button class="mt${act===i?' act':''}${marks&&pd?(pair[i]===i?' right':' wrong'):''}" data-l="${i}"><span class="tag" style="${pd||act===i?'background:'+COL[i%6]:''}">${i+1}</span><span>${t}</span></button>`}).join('')}</div><div class="col">${R.map(([t,ri])=>{const li=Object.keys(pair).find(k=>pair[k]===ri);return `<button class="mt${marks&&li!==undefined?(+li===ri?' right':' wrong'):''}" data-r="${ri}"><span class="tag" style="${li!==undefined?'background:'+COL[li%6]:''}">${li!==undefined?+li+1:''}</span><span>${t}</span></button>`}).join('')}</div></div>`};
+    draw();reveal=()=>{it.l.forEach((_,i)=>pair[i]=i);act=null;draw(true)};done();
+    qa.onclick=e=>{const l=e.target.closest('[data-l]'),r=e.target.closest('[data-r]');
+      if(l){const i=+l.dataset.l;if(act===i)act=null;else{delete pair[i];act=i}draw()}
+      else if(r){if(act===null){fb(false,'Select an item on the left first.');return}const ri=+r.dataset.r;for(const k in pair)if(pair[k]===ri)delete pair[k];pair[act]=ri;act=null;$('fb').hidden=true;draw()}};
+    submit('Check matches',()=>{if(Object.keys(pair).length<it.l.length){fb(false,'Match every item first.');return}const n=it.l.filter((_,i)=>pair[i]===i).length;draw(true);n===it.l.length?win(p):lose(`${n} of ${it.l.length} matches are right. Fix the red ones and try again.`,Math.round(p*n/it.l.length/2))});return}
+  if(it.t==='sort'){const ch={};
+    const draw=marks=>{qa.innerHTML=`<div class="sorter">${it.items.map(([t,b],i)=>`<div class="sc${marks&&ch[i]!==undefined?(ch[i]===b?' right':' wrong'):''}"><p>${t}</p><div class="bins">${it.bins.map((bn,j)=>`<button class="bin${ch[i]===j?' on':''}" data-i="${i}" data-j="${j}" aria-pressed="${ch[i]===j}">${bn}</button>`).join('')}</div></div>`).join('')}</div>`};
+    draw();reveal=()=>{it.items.forEach(([,b],i)=>ch[i]=b);draw(true)};done();
+    qa.onclick=e=>{const b=e.target.closest('.bin');if(!b)return;ch[+b.dataset.i]=+b.dataset.j;draw()};
+    submit('Check answers',()=>{if(Object.keys(ch).length<it.items.length){fb(false,'Choose a team for every request first.');return}const n=it.items.filter(([,b],i)=>ch[i]===b).length;draw(true);n===it.items.length?win(p):lose(`${n} of ${it.items.length} are right. Fix the red ones and try again.`,Math.round(p*n/it.items.length/2))});return}
+  if(it.t==='mem'){const cards=seedShuf(it.pairs.flatMap((pr,i)=>[[pr[0],i],[pr[1],i]]),key).map(x=>x[0]);let up=[],found=new Set(),miss=0,lock=false;
+    qa.innerHTML=`<p class="hintline">Flip two cards at a time to find each matching pair. Mistakes: <b id="miss">0</b></p><div class="mem">${cards.map(([t],i)=>`<button class="card" data-i="${i}" aria-label="Hidden card"><span class="in"><span class="f">B11</span><span class="b">${t}</span></span></button>`).join('')}</div>`;
+    const els=[...qa.querySelectorAll('.card')];
+    reveal=()=>els.forEach((el,i)=>{el.classList.add('got');el.setAttribute('aria-label',cards[i][0])});done();
+    qa.onclick=e=>{const el=e.target.closest('.card');if(!el||lock||st.solved[key])return;const i=+el.dataset.i;if(up.includes(i)||found.has(cards[i][1]))return;
+      el.classList.add('up');el.setAttribute('aria-label',cards[i][0]);up.push(i);if(up.length<2)return;
+      const [x,y]=up;if(cards[x][1]===cards[y][1]){found.add(cards[x][1]);els[x].classList.add('got');els[y].classList.add('got');up=[];
+        if(found.size===it.pairs.length){const n=miss<=2?p:miss<=5?Math.round(p*.66):Math.round(p*.33);const first=st.pts[key]===undefined;award(n);solve();fb(true,`<b>All pairs found${first?`! +${n} points`:''}.</b> ${miss} mistake${miss===1?'':'s'}. ${it.why||''}`)}}
+      else{miss++;$('miss').textContent=miss;lock=true;setTimeout(()=>{els[x].classList.remove('up');els[y].classList.remove('up');els[x].setAttribute('aria-label','Hidden card');els[y].setAttribute('aria-label','Hidden card');up=[];lock=false},900)}};return}
+}
+
+function speedIntro(){body.innerHTML=`<p class="eyebrow">Bonus challenge</p><h2 class="title">Speed round</h2><p class="lead">Answer as many questions as you can in 60 seconds. Each correct answer earns <b>5 bonus points</b>. ${st.speed?`Your best so far is <b>${st.speed} points</b>.`:''}</p><div class="qbtns"><button class="btn" id="go">Start the speed round</button></div><p class="hintline" style="margin-top:12px">It is optional: select Next to skip it.</p>`;$('go').onclick=speedRun}
+function speedRun(){const pool=[];MODS.forEach(m=>(m.quiz||[]).forEach(it=>{if(it.t==='mc'||it.t==='tf')pool.push(it)}));pool.sort(()=>Math.random()-.5);
+  let i=0,pts=0,over=false;const end=Date.now()+60000;
+  const tick=()=>{const left=Math.max(0,end-Date.now());const b=$('tbar'),tt=$('tt');if(b)b.style.width=(left/600)+'%';if(tt)tt.textContent=Math.ceil(left/1000)+'s';if(left<=0)finishRun()};
+  const show=()=>{if(over)return;if(i>=pool.length){finishRun();return}const it=pool[i];const o=it.t==='tf'?['True','False']:it.o;const a=it.t==='tf'?(it.a?0:1):it.a;
+    body.innerHTML=`<p class="eyebrow">Speed round · <span id="tt">60s</span> left · <span id="sp">${pts}</span> bonus points</p><div class="timer"><i id="tbar"></i></div><div class="q"><h3>${it.q}</h3><div class="opts">${o.map((t,k)=>`<button class="opt" data-i="${k}"><b>${'ABCD'[k]}</b>${t}</button>`).join('')}</div></div>`;tick();
+    body.querySelector('.opts').onclick=e=>{const b=e.target.closest('.opt');if(!b||over)return;const ok=+b.dataset.i===a;if(ok)pts+=5;b.classList.add(ok?'right':'wrong');if(!ok)body.querySelectorAll('.opt')[a].classList.add('right');body.querySelectorAll('.opt').forEach(x=>x.disabled=true);setTimeout(()=>{i++;show()},ok?450:900)}};
+  const finishRun=()=>{if(over)return;over=true;clearInterval(T);T=null;const best=pts>(st.speed||0);if(best){st.speed=pts;save();showScore(true)}
+    body.innerHTML=`<p class="eyebrow">Speed round complete</p><h2 class="title">${pts} bonus points</h2><p class="lead">You answered ${Math.min(i,pool.length)} question${i===1?'':'s'}. ${best&&pts?'That is your best score so far, and it has been added to your total.':`Your best score is ${st.speed||0} points.`}</p><div class="qbtns"><button class="btn ghost" id="go">Play again</button></div>`;$('go').onclick=speedRun;if(best&&pts>=30)confetti()};
+  clearInterval(T);T=setInterval(tick,200);show()}
+
+// ---------- first-week missions, video checkpoints, leaderboard ----------
+const MISSIONS=['Complete all your joining documents.','Check in and check out on EdgeFi for your first full day.','Submit your first timesheet.','Meet your reporting manager and agree your first-week goals.','Introduce yourself to your team.','Save the support contacts you will need.','Confirm you can log in to every system your role needs.','Read the handbook sections on leave and reimbursements.'];
+const CPS={
+ w:{at:.42,q:'Which of these is one of B11’s capabilities?',o:['Cybersecurity','Catering','Real estate'],a:0},
+ c1:{at:.7,q:'Which of these is on your first-day list?',o:['Get access to your official email and systems','Book your annual leave','Submit an expense claim'],a:0},
+ c2:{at:.62,q:'How many working shifts can you choose from?',o:['Two','One','Four'],a:0},
+ c3:{at:.76,q:'What should you check first before applying for leave?',o:['Your available leave balance','Another office’s holiday calendar','Your timesheet'],a:0},
+ c4:{at:.52,q:'Which of these is a sample reimbursement category?',o:['Business travel','Personal shopping','Gym membership'],a:0},
+ c5:{at:.46,q:'Which team handles DeskTime issues?',o:['IT Support','HR Support','Marketing Support'],a:0},
+ c6:{at:.62,q:'What is EdgeFi used for?',o:['Attendance and timesheets','Payslips','Video calls'],a:0},
+ c7:{at:.62,q:'Which guideline covers passwords and confidential data?',o:['Information Security','Working Hours','Work Location'],a:0},
+ c8:{at:.42,q:'True or false: each business in the ecosystem has its own teams and workflows.',o:['True','False'],a:0},
+ c9:{at:.62,q:'Where do you find the leave and holiday policy?',o:['In the employee handbook','In EdgeFi','In Outlook'],a:0}};
+const bonusOf=()=>(st.speed||0)+Object.keys(st.ms||{}).length*5+Object.values(st.cp||{}).reduce((a,v)=>a+v,0);
+function checkpoint(m,vid,box){const c=CPS[m.id];if(!c||!vid)return;let shown=false;
+  vid.addEventListener('timeupdate',()=>{if(shown||!vid.duration||st.cp[m.id]!==undefined||vid.currentTime<c.at*vid.duration)return;shown=true;vid.pause();
+    const o=seedShuf(c.o,'cp'+m.id);box.hidden=false;
+    box.innerHTML=`<p class="eyebrow">Checkpoint · +5 bonus points</p><h3>${c.q}</h3><div class="opts">${o.map(([t,oi],i)=>`<button class="opt" data-o="${oi}"><b>${'ABC'[i]}</b>${t}</button>`).join('')}</div><p class="fb" hidden></p>`;
+    box.scrollIntoView({block:'nearest',behavior:'smooth'});
+    box.querySelector('.opts').onclick=e=>{const b=e.target.closest('.opt');if(!b)return;const ok=+b.dataset.o===c.a;const first=st.cp[m.id]===undefined;
+      if(first){st.cp[m.id]=ok?5:0;save();if(ok)showScore(true)}
+      box.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.o===c.a)x.classList.add('right')});if(!ok)b.classList.add('wrong');
+      const f=box.querySelector('.fb');f.hidden=false;f.className='fb '+(ok?'ok':'no');f.innerHTML=`<b>${ok?'Correct! +5 bonus points.':'Not quite. The right answer is highlighted.'}</b> <button class="btn" style="margin-left:8px;padding:8px 14px">Continue the video</button>`;
+      f.querySelector('button').onclick=()=>{box.hidden=true;vid.play().catch(()=>{})}}})}
+function missions(){const n=Object.keys(st.ms).length;
+  body.innerHTML=`<p class="eyebrow">Bonus · your first week</p><h2 class="title">First-week missions</h2><p class="lead">Complete these in your first week and tick each one off here. Every mission earns <b>5 bonus points</b>. Come back any time to update them.</p>
+  <p class="hintline"><b id="msn">${n}</b> of ${MISSIONS.length} missions done</p><ul class="missions">${MISSIONS.map((t,i)=>`<li><button class="msn${st.ms[i]?' on':''}" data-i="${i}" aria-pressed="${!!st.ms[i]}"><span class="box">${st.ms[i]?'✓':''}</span><span>${t}</span><span class="pts">+5</span></button></li>`).join('')}</ul>`;
+  body.querySelector('.missions').onclick=e=>{const b=e.target.closest('.msn');if(!b)return;const i=b.dataset.i;if(st.ms[i])delete st.ms[i];else st.ms[i]=1;save();
+    const on=!!st.ms[i];b.classList.toggle('on',on);b.setAttribute('aria-pressed',on);b.querySelector('.box').textContent=on?'✓':'';$('msn').textContent=Object.keys(st.ms).length;showScore(on);
+    if(on&&Object.keys(st.ms).length===MISSIONS.length)confetti()}}
+let LB=null,ME=null,BOARD=[],postT=null;
+function boardHTML(){if(!LB)return '<div id="board" hidden></div>';const rows=BOARD.slice(0,10);
+  return `<section class="lb" id="board"><h3>Leaderboard</h3>${rows.length?`<ol>${rows.map((r,i)=>`<li class="${r.id===ME?'me':''}"><span class="r">${i+1}</span><span class="n">${esc(r.name||(r.id===ME?'You':'A new joiner'))}${r.id===ME?' (you)':''}</span><span class="p">${r.pts} pts</span></li>`).join('')}</ol>`:'<p class="hintline">No scores yet. Earn points to appear here.</p>'}</section>`}
+function drawBoard(){const el=$('board');if(el)el.outerHTML=boardHTML()}
+function postScore(){if(!LB||!ME)return;clearTimeout(postT);postT=setTimeout(()=>{const s=score();const tot=s.c+s.b;if(tot===postScore.last||!tot)return;postScore.last=tot;
+  LB.doc('board/'+ME).set({pts:tot,pct:s.pct,modules:REQ.filter(m=>st.done[m.id]).length,at:new Date().toISOString()}).catch(()=>{LB=null;drawBoard()})},1500)}
+(async()=>{try{if(!window.claude||typeof window.claude.use!=='function')return;const db=await window.claude.use('db');const u=await window.claude.use('user');if(!db||!u)return;const id=await u.id();if(!id)return;LB=db;ME=id;drawBoard();
+  db.collection('board').orderBy('pts','desc').limit(20).onSnapshot(async s=>{BOARD=s.docs.map(d=>Object.assign({id:d.id},d.data()));try{const ps=await u.profiles(BOARD.map(b=>b.id));BOARD.forEach(b=>{b.name=(ps&&ps[b.id]&&ps[b.id].name)||''})}catch(e){}drawBoard()},()=>{});
+  postScore()}catch(e){}})();
+
 const TEAM=[['mgr','Who is your reporting manager?'],['tm','Who are your immediate team members?'],['fn','Which functions do you work with?'],['ap','Who approves your work?'],['es','Where do you escalate a work-related concern?']];
 
 // ---------- state (local resume, or SCORM inside a learning system) ----------
-let st={m:null,s:0,done:{},first:{},bu:'',notes:{},name:''};
+let st={m:null,s:0,done:{},pts:{},solved:{},speed:0,cp:{},ms:{},bu:'',notes:{},name:''};
 function findAPI(w){let n=0;while(w&&n<12){try{if(w.API)return w.API}catch(e){}if(w===w.parent)break;w=w.parent;n++}try{if(window.opener&&window.opener.API)return window.opener.API}catch(e){}return null}
 const API=findAPI(window);
-if(API){try{API.LMSInitialize('');const sd=API.LMSGetValue('cmi.suspend_data');if(sd)st=Object.assign(st,JSON.parse(sd));const nm=API.LMSGetValue('cmi.core.student_name');if(nm&&!st.name){const p=nm.split(',');st.name=(p.length>1?p[1].trim()+' '+p[0].trim():nm).trim()}if(API.LMSGetValue('cmi.core.lesson_status')==='not attempted')API.LMSSetValue('cmi.core.lesson_status','incomplete')}catch(e){}}
-else{try{const s=localStorage.getItem('b11-onboarding-v3');if(s)st=Object.assign(st,JSON.parse(s))}catch(e){}}
-function save(){const j=JSON.stringify(st);if(API){try{API.LMSSetValue('cmi.suspend_data',j);API.LMSCommit('')}catch(e){}}else{try{localStorage.setItem('b11-onboarding-v3',j)}catch(e){}}}
+if(API){try{API.LMSInitialize('');const sd=API.LMSGetValue('cmi.suspend_data');if(sd)st=Object.assign(st,JSON.parse(sd));st.cp=st.cp||{};st.ms=st.ms||{};const nm=API.LMSGetValue('cmi.core.student_name');if(nm&&!st.name){const p=nm.split(',');st.name=(p.length>1?p[1].trim()+' '+p[0].trim():nm).trim()}if(API.LMSGetValue('cmi.core.lesson_status')==='not attempted')API.LMSSetValue('cmi.core.lesson_status','incomplete')}catch(e){}}
+else{try{const s=localStorage.getItem('b11-onboarding-v4');if(s)st=Object.assign(st,JSON.parse(s));st.cp=st.cp||{};st.ms=st.ms||{}}catch(e){}}
+function save(){const j=JSON.stringify(st);if(API){try{API.LMSSetValue('cmi.suspend_data',j);API.LMSCommit('')}catch(e){}}else{try{localStorage.setItem('b11-onboarding-v4',j)}catch(e){}}}
 window.addEventListener('beforeunload',()=>{save();if(API){try{API.LMSFinish('')}catch(e){}}});
-const REQ=MODS.filter(m=>m.id!=='fin');
+const REQ=MODS.filter(m=>m.id!=='fin'&&m.id!=='ms');
 function progress(){const p=Math.round(REQ.filter(m=>st.done[m.id]).length/REQ.length*100);$('barFill').style.width=p+'%';$('progTxt').textContent=p+'% complete'}
-function score(){let c=0,t=0;MODS.forEach(m=>(m.quiz||[]).forEach((q,i)=>{t++;if(st.first[m.id+'-'+i]===true)c++}));return{c,t}}
 
 // ---------- navigation ----------
 function buildNav(){let h='',last=0;MODS.forEach((m,k)=>{if(m.part!==last){if(last)h+='</ol>';h+=`<h2>${PARTS[m.part]}</h2><ol>`;last=m.part}
   h+=`<li><button class="mi" data-k="${k}"><span class="n">${m.n}</span><span class="t">${m.t}</span><span class="s"></span></button></li>`});$('nav').innerHTML=h+'</ol>';
   $('nav').querySelectorAll('.mi').forEach(b=>b.addEventListener('click',()=>open(+b.dataset.k,0)))}
-function refreshNav(){$('nav').querySelectorAll('.mi').forEach(b=>{const m=MODS[+b.dataset.k];b.classList.toggle('on',st.m===+b.dataset.k);b.classList.toggle('done',!!st.done[m.id]);b.querySelector('.s').textContent=st.done[m.id]?'✓ Done':''})}
+function refreshNav(){$('nav').querySelectorAll('.mi').forEach(b=>{const m=MODS[+b.dataset.k];b.classList.toggle('on',st.m===+b.dataset.k);b.classList.toggle('done',!!st.done[m.id]);b.querySelector('.s').textContent=m.id==='ms'?(Object.keys(st.ms).length?Object.keys(st.ms).length+'/'+MISSIONS.length:''):st.done[m.id]?(m.quiz?'✓ '+earnedOf(m)+'/'+maxOf(m):'✓ Done'):''})}
 function stepsOf(m){return m.steps.length+(m.quiz?m.quiz.length:0)}
 function open(k,s){st.m=k;st.s=s||0;save();render();window.scrollTo({top:0,behavior:'smooth'})}
 
 // ---------- rendering ----------
 const body=$('body');
-function render(){refreshNav();progress();
+function render(){if(T){clearInterval(T);T=null}refreshNav();progress();showScore();
   if(st.m===null){home();return}
   const m=MODS[st.m],n=stepsOf(m),i=st.s;
   $('crumb').textContent=`${PARTS[m.part]} · ${m.t}`;
@@ -240,12 +464,13 @@ function render(){refreshNav();progress();
   const isQuiz=i>=m.steps.length;
   if(isQuiz)renderQuiz(m,i-m.steps.length);else renderStep(m,m.steps[i]);
   const lastStep=i===n-1;
-  $('next').textContent=lastStep?(m.id==='fin'?'':'Finish module'):'Next';$('next').hidden=m.id==='fin';
+  $('next').textContent=lastStep?(m.id==='fin'?'':'Finish module'):'Next';$('next').hidden=m.id==='fin'&&lastStep;
   if(!isQuiz)$('next').disabled=false}
 function home(){$('crumb').textContent='Home';$('dots').innerHTML='';$('back').hidden=true;$('next').hidden=false;$('next').disabled=false;
   const nx=MODS.findIndex(m=>!st.done[m.id]);$('next').textContent=nx<0?'View certificate':(Object.keys(st.done).length?'Continue':'Start');$('footNote').textContent='';
-  body.innerHTML=`<p class="eyebrow">Employee onboarding</p><h2 class="title">Welcome to B11 Technology.</h2><p class="lead">Work through each module at your own pace. You can revisit any chapter at any time. Items tagged ${SAMPLE} are examples awaiting approval.</p>
-  <div class="home">${MODS.map((m,k)=>`<button class="hm${st.done[m.id]?' done':''}" data-k="${k}"><span class="k">${PARTS[m.part].split(' · ')[0]} · ${m.n}</span><span class="h">${m.t}</span><span class="st">${st.done[m.id]?'✓ Completed':(m.quiz?m.quiz.length+' question'+(m.quiz.length>1?'s':''):m.id==='w'?'2-minute video':'Video and activities')}</span></button>`).join('')}</div>`;
+  body.innerHTML=`<p class="eyebrow">Employee onboarding</p><h2 class="title">Welcome to B11 Technology.</h2><p class="lead">Work through each module at your own pace. You can revisit any chapter at any time. Earn points with quizzes, puzzles and a bonus speed round. Items tagged ${SAMPLE} are examples awaiting approval.</p>
+  <div class="home">${MODS.map((m,k)=>`<button class="hm${st.done[m.id]?' done':''}" data-k="${k}"><span class="k">${PARTS[m.part].split(' · ')[0]} · ${m.n}</span><span class="h">${m.t}</span><span class="st">${st.done[m.id]&&m.id!=='ms'?(m.quiz?'✓ '+earnedOf(m)+' of '+maxOf(m)+' points':'✓ Completed'):(m.id==='ms'?'Bonus · '+Object.keys(st.ms).length+' of '+MISSIONS.length+' missions done':m.quiz?'Video · '+m.quiz.length+' activit'+(m.quiz.length>1?'ies':'y')+' · '+maxOf(m)+' pts':'Video · speed round · certificate')}</span></button>`).join('')}</div>`;
+  body.insertAdjacentHTML('beforeend',boardHTML());
   body.querySelectorAll('.hm').forEach(b=>b.addEventListener('click',()=>open(+b.dataset.k,0)))}
 function wireCards(stp){const grid=body.querySelector('.cards[data-r]');if(!grid)return;const rv=body.querySelector('.reveal[data-r]');const seen=new Set();
   grid.addEventListener('click',e=>{const c=e.target.closest('.rc');if(!c)return;const j=+c.dataset.j;seen.add(j);c.classList.add('open');c.querySelector('.hint').textContent='✓ Opened';
@@ -255,9 +480,8 @@ function wireCopy(root){root.querySelectorAll('[data-copy]').forEach(b=>b.addEve
 function sel(b){const c=b.previousElementSibling;const r=document.createRange();r.selectNodeContents(c);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Selected — press Ctrl+C'}
 function renderStep(m,stp){
   const head=`<p class="eyebrow">${stp.eb||''}</p><h2 class="title">${stp.h||''}</h2>`;
-  if(stp.k==='video'){body.innerHTML=`<p class="eyebrow">Part 1 · Introductory video</p><h2 class="title">Welcome to B11</h2><p class="lead">A short introduction to who we are, where we come from and how we work.</p><div class="video"><video id="wv" src="w.mp4" poster="poster.jpg" controls playsinline preload="metadata"></video></div>`;
-    $('wv').addEventListener('timeupdate',e=>{const v=e.target;if(v.duration&&v.currentTime/v.duration>.9&&!st.done.w){st.done.w=1;save();progress();refreshNav()}});return}
-  if(stp.k==='clip'){body.innerHTML=`<p class="eyebrow">Watch first</p><h2 class="title">${m.t}</h2><p class="lead">Watch this short chapter video, then select <b>Next</b> to explore the details and check what you have learnt.</p><div class="video"><video src="${m.id}.mp4" poster="" controls playsinline muted autoplay preload="auto"></video></div>`;return}
+  if(stp.k==='video'){body.innerHTML=`<p class="eyebrow">Part 1 · Introductory video</p><h2 class="title">Welcome to B11</h2><p class="lead">A short introduction to who we are, where we come from and how we work.</p><div class="video"><video id="wv" src="w.mp4" poster="poster.jpg" controls playsinline preload="metadata"></video></div><div class="cpbox" id="cpb" hidden></div>`;checkpoint(m,$('wv'),$('cpb'));return}
+  if(stp.k==='clip'){body.innerHTML=`<p class="eyebrow">Watch first</p><h2 class="title">${m.t}</h2><p class="lead">Watch this short chapter video, then select <b>Next</b> to explore the details and check what you have learnt.</p><div class="video"><video id="cv" src="${m.id}.mp4" poster="" controls playsinline muted autoplay preload="auto"></video></div><div class="cpbox" id="cpb" hidden></div>${CPS[m.id]&&st.cp[m.id]===undefined?'<p class="hintline" style="margin-top:10px">Watch closely: the video pauses for a quick checkpoint question worth 5 bonus points.</p>':''}`;checkpoint(m,$('cv'),$('cpb'));return}
   if(stp.k==='list'){body.innerHTML=head+`<p class="lead">${stp.lead}</p><ul class="checklist">${stp.items.map((t,i)=>`<li style="animation-delay:${.15+i*.18}s">${tick}<span>${t}</span></li>`).join('')}</ul>`;return}
   if(stp.k==='cards'){body.innerHTML=head+(stp.sample?`<p>${SAMPLE}</p>`:'')+`<div class="cards" data-r="1"${stp.cols3?' style="grid-template-columns:repeat(auto-fill,minmax(200px,1fr))"':''}>${stp.cards.map(([k,h],j)=>`<button class="rc" data-j="${j}">${k?`<span class="k">${k}</span>`:''}<span class="h">${h}</span><span class="hint">Select to open</span></button>`).join('')}</div><div class="reveal" data-r="1" hidden></div>${stp.after||''}${stp.tbc?tbc(stp.tbc):''}`;wireCards(stp);return}
   if(stp.k==='html'){body.innerHTML=head+stp.html+(stp.tbc?tbc(stp.tbc):'');wireCopy(body);return}
@@ -267,14 +491,9 @@ function renderStep(m,stp){
     body.querySelector('.cards').addEventListener('click',e=>{const c=e.target.closest('.rc');if(!c)return;const j=+c.dataset.j;st.bu=BU[j][0];save();body.querySelectorAll('.rc').forEach(x=>{x.classList.remove('open');x.querySelector('.hint').textContent='Select'});c.classList.add('open');c.querySelector('.hint').textContent='✓ Selected';show(j)});return}
   if(stp.k==='team'){body.innerHTML=head+`<p class="lead">Every employee should understand who they report to, who their team members are, which functions they work with, who approves their work and where to escalate a concern. Note yours below for quick reference.</p>${TEAM.map(([id,l])=>`<div class="note"><label for="n-${id}">${l}</label><input id="n-${id}" value="${esc(st.notes[id]||'').replace(/"/g,'&quot;')}" placeholder="Add a note"></div>`).join('')}<p class="note" style="color:var(--mist);font-size:13px">Your notes stay on this device${API?' and in your learning record':''}.</p>`;
     TEAM.forEach(([id])=>$('n-'+id).addEventListener('input',e=>{st.notes[id]=e.target.value;save()}));return}
+  if(stp.k==='speed'){speedIntro();return}
+  if(stp.k==='missions'){missions();return}
   if(stp.k==='finish'){finish();return}}
-function renderQuiz(m,qi){const [q,o,a]=m.quiz[qi];const key=m.id+'-'+qi;let tried=st.first[key]!==undefined;
-  body.innerHTML=`<div class="q"><p class="eyebrow">Knowledge check · Question ${qi+1} of ${m.quiz.length}</p><h3>${q}</h3><div class="opts">${o.map((t,i)=>`<button class="opt" data-i="${i}"><b>${'ABCD'[i]}</b>${t}</button>`).join('')}</div><p class="fb" id="fb" hidden></p></div>`;
-  $('next').disabled=true;
-  body.querySelector('.opts').addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;const ok=+b.dataset.i===a;
-    if(!tried){st.first[key]=ok;tried=true;save()}
-    body.querySelectorAll('.opt').forEach(x=>x.classList.remove('right','wrong'));b.classList.add(ok?'right':'wrong');
-    const fb=$('fb');fb.hidden=false;fb.className='fb '+(ok?'ok':'no');fb.textContent=ok?'Correct.':'Not quite. Try another answer.';if(ok)$('next').disabled=false})}
 function finish(){const left=REQ.filter(m=>!st.done[m.id]);$('crumb').textContent=PARTS[5];
   if(left.length){body.innerHTML=`<p class="eyebrow">Almost there</p><h2 class="title">Complete the remaining modules to finish.</h2><div class="cards">${left.map(m=>`<button class="rc" data-k="${MODS.indexOf(m)}"><span class="h">${m.t}</span><span class="hint">Go to module</span></button>`).join('')}</div>`;
     body.querySelector('.cards').addEventListener('click',e=>{const c=e.target.closest('.rc');if(c)open(+c.dataset.k,0)});return}
@@ -283,18 +502,24 @@ function finish(){const left=REQ.filter(m=>!st.done[m.id]);$('crumb').textConten
   <p class="lead" style="margin-bottom:8px"><b>Remember:</b></p><ul class="checklist">${['Follow the approved processes.','Use the right tools.','Reach out when you need support.','Keep learning about your role and business.'].map((t,i)=>`<li style="animation-delay:${i*.15}s">${tick}<span>${t}</span></li>`).join('')}</ul>
   <div class="note" style="margin-top:22px"><label for="nm">Your full name, for your completion record</label><input id="nm" autocomplete="name" value="${esc(st.name||'').replace(/"/g,'&quot;')}"></div><button class="btn" id="fin">Complete onboarding</button>`;
   const go=()=>{const v=$('nm').value.trim();if(!v){$('nm').focus();return}st.name=v;st.done.fin=1;st.when=new Date().toISOString();save();
-    const s=score();if(API){try{API.LMSSetValue('cmi.core.score.min','0');API.LMSSetValue('cmi.core.score.max','100');API.LMSSetValue('cmi.core.score.raw',String(Math.round(s.c/s.t*100)));API.LMSSetValue('cmi.core.lesson_status','completed');API.LMSCommit('')}catch(e){}}
+    const s=score();if(API){try{API.LMSSetValue('cmi.core.score.min','0');API.LMSSetValue('cmi.core.score.max','100');API.LMSSetValue('cmi.core.score.raw',String(s.pct));API.LMSSetValue('cmi.core.lesson_status','completed');API.LMSCommit('')}catch(e){}}
     progress();refreshNav();cert()};
   $('fin').addEventListener('click',go);$('nm').addEventListener('keydown',e=>{if(e.key==='Enter')go()})}
 function cert(){const s=score();const d=new Date(st.when||Date.now()).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'});
+  const rk=s.pct>=90?['Gold','Onboarding Champion','#B8860B']:s.pct>=70?['Silver','Team Ready','#6E7C99']:['Bronze','Getting Started','#A0603A'];
+  const bdg=MODS.filter(perfect).map(m=>'Perfect: '+m.t);if((st.speed||0)>=30)bdg.push('Speed Star');if(Object.keys(st.ms).length===MISSIONS.length)bdg.push('Mission Complete');if(Object.keys(CPS).every(k=>st.cp[k]===5))bdg.push('Sharp Eyes');
   body.innerHTML=`<div class="cert"><img src="bxi.png" alt="B11 Technology" style="width:86px;height:86px;object-fit:contain"><p class="eyebrow" style="margin-top:8px">Onboarding complete</p><p style="margin:0">This certifies that</p><div class="who">${esc(st.name)}</div><p>has completed the B11 Technology Employee Onboarding on ${d}.</p>
-  <div class="stats"><div><b>${s.c} / ${s.t}</b><span>Correct first time</span></div><div><b>${REQ.length} / ${REQ.length}</b><span>Modules completed</span></div><div><b>${esc(st.bu||'—')}</b><span>Business unit</span></div></div>
-  <h2 class="title" style="font-size:26px;margin-top:10px">WELCOME TO B11 TECHNOLOGY.</h2><p style="margin:0;color:var(--orange);font:800 18px var(--display)">Your journey starts here.</p><div class="row" style="margin-top:18px"><button class="btn ghost" id="again">Restart onboarding</button></div></div>`;
-  $('again').addEventListener('click',()=>{st={m:null,s:0,done:{},first:{},bu:st.bu,notes:st.notes,name:st.name};save();render()})}
+  <span class="rank" style="background:${rk[2]}">${rk[0]} · ${rk[1]}</span>
+  <div class="stats"><div><b>${s.c+s.b}</b><span>Total points${s.b?' (incl. '+s.b+' bonus)':''}</span></div><div><b>${s.pct}%</b><span>Activity score</span></div><div><b>${REQ.length} / ${REQ.length}</b><span>Modules completed</span></div><div><b>${esc(st.bu||'—')}</b><span>Business unit</span></div></div>
+  ${bdg.length?`<p class="eyebrow" style="margin:0">Badges earned</p><div class="badges">${bdg.map(b=>`<span class="badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8z"/></svg>${b}</span>`).join('')}</div>`:''}
+  <h2 class="title" style="font-size:26px;margin-top:10px">WELCOME TO B11 TECHNOLOGY.</h2><p style="margin:0;color:var(--orange);font:800 18px var(--display)">Your journey starts here.</p><div class="qbtns" style="justify-content:center;margin-top:18px"><button class="btn" id="tomiss">First-week missions</button><button class="btn ghost" id="again">Restart onboarding</button></div></div>${boardHTML()}`;
+  $('tomiss').onclick=()=>open(MODS.findIndex(m=>m.id==='ms'),0);
+  if(!cert.shown){cert.shown=1;if(s.pct>=70)confetti()}
+  $('again').addEventListener('click',()=>{st={m:null,s:0,done:{},pts:{},solved:{},speed:0,cp:{},ms:{},bu:st.bu,notes:st.notes,name:st.name};save();render()})}
 
 $('next').addEventListener('click',()=>{if(st.m===null){const nx=MODS.findIndex(m=>!st.done[m.id]);open(nx<0?MODS.length-1:nx,0);return}
   const m=MODS[st.m],n=stepsOf(m);if(st.s<n-1){st.s++;save();render();window.scrollTo({top:0,behavior:'smooth'});return}
-  st.done[m.id]=1;save();const nx=MODS.findIndex((x,k)=>k>st.m&&!st.done[x.id]);open(nx<0?MODS.length-1:nx,0)});
+  const was=st.done[m.id];st.done[m.id]=1;save();if(!was&&perfect(m))confetti();const nx=MODS.findIndex((x,k)=>k>st.m&&!st.done[x.id]);open(nx<0?MODS.length-1:nx,0)});
 $('back').addEventListener('click',()=>{if(st.m===null)return;if(st.s>0){st.s--;save();render()}else{st.m=null;save();render()}});
 buildNav();render();
 })();
